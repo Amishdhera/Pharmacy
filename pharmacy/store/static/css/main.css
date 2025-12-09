@@ -1,0 +1,12 @@
+h1 {
+    font-family: 'Georgia', 'Times New Roman', Times, serif;
+    background: linear-gradient(to right, #000000, #333333);
+    color: wheat;
+    font-weight: bold;
+    padding: 18px 30px;
+    letter-spacing: 2px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    text-transform: uppercase;
+}
