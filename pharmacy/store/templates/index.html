@@ -1,34 +1,97 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static  'css/main.css' %}">
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous">
-  </head>
-  <body>
-    <h1>Pharmacy</h1>
-    {% for goli in med%}
-    <div class="card" style="width: 18rem;">
-      <img src="{{goli.image.url}}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Name:{{goli.name}}</h5>
-        <p class="card-text">Price:{{goli.price}}</p>
-      
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-    {%endfor%}
+    <title>Pharmacy Store</title>
 
-  </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- 🔹 Navbar (Professional) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            💊 Pharmacy
+        </a>
+
+        <div class="collapse navbar-collapse show">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}"
+                    >About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 🔹 Main Content -->
+<div class="container my-5">
+    <h2 class="text-center mb-4 fw-bold">Available Medicines</h2>
+
+    <div class="row g-4">
+      {% for goli in med %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card h-100 shadow-sm">
+              <img src="{{ goli.image.url }}" class="card-img-top" alt="{{ goli.name }}">
+  
+              <div class="card-body text-center">
+                  <!-- Medicine Name Bold -->
+                  <h6 class="card-title fw-bold">
+                      {{ goli.name }}
+                  </h6>
+  
+                  <!-- Price Bold -->
+                  <p class="card-text text-success fw-bold">
+                      Rs: {{ goli.price }}
+                  </p>
+  
+                  <!-- Button already bold by default -->
+                  <a href="#" class="btn btn-outline-dark btn-sm fw-bold">
+                      Buy Now
+                  </a>
+              </div>
+          </div>
+      </div>
+      {% empty %}
+      <p class="text-center fw-bold">No medicines available</p>
+      {% endfor %}
+  </div>
+  
+</div>
+
+<!-- 🔹 Footer (Same Look as Navbar) -->
+<footer class="bg-dark text-light mt-5">
+    <div class="container py-4">
+        <div class="row text-center text-md-start">
+            <div class="col-md-6 mb-2">
+                <h6 class="fw-bold mb-1">💊 Pharmacy</h6>
+                <small>Trusted medical store for your family</small>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <small>
+                    © 2025 Pharmacy  
+                    <br>
+                    All rights reserved
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

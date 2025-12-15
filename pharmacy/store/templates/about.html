@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Pharmacy</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar (same as home page) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">💊 Pharmacy</a>
+        <div class="collapse navbar-collapse show">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- About Section -->
+<div class="container my-5">
+    <div class="row align-items-center">
+        <!-- Image -->
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="{%  static 'css/download.jfif' %}" alt="">
+        </div>
+
+        <!-- Text -->
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-3">About Us</h2>
+            <p class="lead">
+                Welcome to <strong>Pharmacy</strong>, your trusted online medical store. 
+                We provide high-quality medicines and health products at your doorstep. 
+                Our mission is to ensure safe and reliable access to healthcare products for everyone.
+            </p>
+            <p>
+                With years of experience in the pharmaceutical industry, our team is committed 
+                to serving you with care, professionalism, and timely delivery. Your health is our priority.
+            </p>
+            <a href="/" class="btn btn-primary mt-3">Explore Medicines</a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer (same as home page) -->
+<footer class="bg-dark text-light mt-5">
+    <div class="container py-4">
+        <div class="row text-center text-md-start">
+            <div class="col-md-6 mb-2">
+                <h6 class="fw-bold mb-1">💊 Pharmacy</h6>
+                <small>Trusted medical store for your family</small>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <small>© 2025 Pharmacy | All rights reserved</small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
