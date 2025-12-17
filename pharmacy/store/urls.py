@@ -19,8 +19,8 @@ from django.urls import path
 from . import views  # Apne hi folder se views import karein
 
 urlpatterns = [
-    path('', views.home ),
+    path('', views.home ,name='home'),
     path('about/', views.about, name="about" ),
-   path('add_product/', views.product, name='add_product'),
+    path('add_product/', views.product, name='add_product'),
 
 ]

@@ -34,41 +34,78 @@
 <!-- Add Product Form -->
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-light">
-                    <h5 class="mb-0 fw-bold">Add New Medicine</h5>
+        <div class="col-lg-5 col-md-7">
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top">
+                    <h4 class="fw-bold mb-0">
+                        🩺 Add New Medicine
+                    </h4>
+                    <small class="opacity-75">
+                        Enter medicine details carefully
+                    </small>
                 </div>
-                <div class="card-body">
+
+                <!-- Body -->
+                <div class="card-body p-4">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
+                        <!-- Medicine Name -->
                         <div class="mb-3">
-                            <label for="id_name" class="form-label fw-bold">Medicine Name</label>
-
-                            <input type="text" name="med_name" id="">
-
+                            <label class="form-label fw-semibold">
+                                Medicine Name
+                            </label>
+                            <input type="text"
+                                   name="med_name"
+                                   class="form-control form-control-lg"
+                                   placeholder="e.g. Paracetamol 500mg"
+                                   required>
                         </div>
 
+                        <!-- Price -->
                         <div class="mb-3">
-                            <label for="id_price" class="form-label fw-bold">Price (Rs)</label>
-                            <input type="text" name="med_price" id="">
-
+                            <label class="form-label fw-semibold">
+                                Price (Rs)
+                            </label>
+                            <input type="number"
+                                   name="med_price"
+                                   class="form-control form-control-lg"
+                                   placeholder="e.g. 120"
+                                   required>
                         </div>
-                        <div class="mb-3">
-                            <label for="id_price" class="form-label fw-bold">Price (Rs)</label>
-                            <input type="file" name="med_img" id="">
 
+                        <!-- Image Upload -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Medicine Image
+                            </label>
+                            <input type="file"
+                                   name="med_img"
+                                   class="form-control"
+                                   accept="image/*"
+                                   required>
+                            <small class="text-muted">
+                                Upload clear product image (JPG/PNG)
+                            </small>
                         </div>
 
-
-                        <button type="submit" class="btn btn-primary w-100 fw-bold">Add Medicine</button>
+                        <!-- Button -->
+                        <div class="d-grid">
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg fw-bold">
+                                ➕ Add Medicine
+                            </button>
+                        </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Footer -->
 <footer class="bg-dark text-light mt-5">
