@@ -4,86 +4,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmacy Store</title>
+    <title>MediCare - Pharmacy Store</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Modern Navbar */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: all 0.3s;
+            padding: 8px 16px !important;
+            border-radius: 6px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(rgba(42, 157, 143, 0.9), rgba(38, 70, 83, 0.9)), url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 50px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Medicine Cards */
+        .medicine-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .medicine-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-img-container {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+        
+        .medicine-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+            transition: transform 0.5s;
+        }
+        
+        .medicine-card:hover .medicine-img {
+            transform: scale(1.05);
+        }
+        
+        .badge-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .medicine-name {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            height: 50px;
+            overflow: hidden;
+        }
+        
+        .medicine-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .btn-add-to-cart {
+            background: linear-gradient(to right, var(--primary), #2a9d8f);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-to-cart:hover {
+            background: linear-gradient(to right, #248f7c, var(--primary));
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
+        }
+        
+        /* Section Title */
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, #f8fafc, #e9f5f3);
+            border-radius: 20px;
+            padding: 40px 0;
+            margin: 60px 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        /* Footer */
+        .footer-custom {
+            background: linear-gradient(135deg, var(--secondary), #1a3240);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links h6 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .navbar-nav {
+                background: rgba(38, 70, 83, 0.95);
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-
-<!-- 🔹 Navbar (Professional) -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">
-            💊 Pharmacy
-        </a>
-
-        <div class="collapse navbar-collapse show">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}"
-                    >About us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
+<body>
+    <!-- 🔹 Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="brand-logo">
+                    <i class="fas fa-pills"></i>
+                </div>
+                MediCare
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i> About Us
+                        </a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="fas fa-phone-alt me-1"></i> Contact
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-outline-light rounded-pill px-4" href="#">
+                            <i class="fas fa-shopping-cart me-1"></i> Cart (0)
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- 🔹 Main Content -->
-<div class="container my-5">
-    <h2 class="text-center mb-4 fw-bold">Available Medicines</h2>
-
-    <div class="row g-4">
-        {% for goli in med %}
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-        
-                {% if goli.image and goli.image.url %}
-                    <img src="{{ goli.image.url }}" class="card-img-top" alt="{{ goli.name }}">
-                {% else %}
-                    <img src="/static/images/no-image.png" class="card-img-top" alt="No image">
-                {% endif %}
-        
-                <div class="card-body text-center">
-                    <h6 class="card-title fw-bold">{{ goli.name }}</h6>
-                    <p class="card-text text-success fw-bold">Rs: {{ goli.price }}</p>
+    <!-- 🔹 Hero Banner -->
+    <div class="hero-banner mt-5 pt-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Your Health, Our Priority</h1>
+                    <p class="lead mb-4">Quality medicines delivered to your doorstep. Trusted by thousands of families for genuine healthcare products.</p>
+                    <div class="search-box">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg rounded-pill" placeholder="Search for medicines, health products...">
+                            <button class="btn btn-light rounded-pill ms-2 px-4" type="button">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pharmacy" class="img-fluid rounded-3 shadow" style="max-height: 300px;">
                 </div>
             </div>
         </div>
-        {% endfor %}
+    </div>
+
+    <!-- 🔹 Main Content -->
+    <div class="container my-5">
+        <h2 class="text-center section-title">Available Medicines</h2>
         
-  </div>
-  
-</div>
-
-<!-- 🔹 Footer (Same Look as Navbar) -->
-<footer class="bg-dark text-light mt-5">
-    <div class="container py-4">
-        <div class="row text-center text-md-start">
-            <div class="col-md-6 mb-2">
-                <h6 class="fw-bold mb-1">💊 Pharmacy</h6>
-                <small>Trusted medical store for your family</small>
+        <!-- Category Filter
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <button class="btn btn-outline-primary rounded-pill active">All Medicines</button>
+                    <button class="btn btn-outline-primary rounded-pill">Prescription</button>
+                    <button class="btn btn-outline-primary rounded-pill">OTC</button>
+                    <button class="btn btn-outline-primary rounded-pill">Wellness</button>
+                    <button class="btn btn-outline-primary rounded-pill">Personal Care</button>
+                </div>
             </div>
+        </div> -->
+        
+        <!-- Medicine Grid -->
+        <div class="row g-4">
+            {% for goli in med %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="medicine-card">
+                    <div class="card-img-container position-relative">
+                        {% if goli.image and goli.image.url %}
+                            <img src="{{ goli.image.url }}" class="medicine-img" alt="{{ goli.name }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="medicine-img" alt="No image">
+                        {% endif %}
+                        <span class="badge-category">Medicine</span>
+                    </div>
+                    
+                    <div class="card-body p-3">
+                        <h6 class="medicine-name">{{ goli.name|truncatechars:50 }}</h6>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <span class="medicine-price">Rs:{{ goli.price }}</span>
+                                <small class="text-muted d-block">per Box</small>
+                            </div>
+                            <span class="badge bg-success">In Stock</span>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button class="btn btn-add-to-cart">
+                                <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                            </button>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt text-primary me-1"></i> Genuine Products
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-pills fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No medicines available at the moment</h4>
+                <p class="text-muted">Please check back later or contact our store</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-            <div class="col-md-6 text-md-end">
-                <small>
-                    © 2025 Pharmacy  
-                    <br>
-                    All rights reserved
-                </small>
+    <!-- 🔹 Stats Section -->
+    <div class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">10,000+</div>
+                    <p class="text-muted">Happy Customers</p>
+                </div>
+                <div class="col-md-3 col-6 stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <p class="text-muted">Medicines</p>
+                </div>
+                <div class="col-md-3 col-6 stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-number">24/7</div>
+                    <p class="text-muted">Delivery Service</p>
+                </div>
+                <div class="col-md-3 col-6 stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-number">15+</div>
+                    <p class="text-muted">Years Experience</p>
+                </div>
             </div>
         </div>
     </div>
-</footer>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 🔹 Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">MediCare</div>
+                    <p>Your trusted partner in health and wellness since 2010. We provide genuine medicines with care and responsibility.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 footer-links">
+                    <h6>Quick Links</h6>
+                    <a href="#">Home</a>
+                    <a href="{% url 'about' %}">About Us</a>
+                    <a href="#">Medicines</a>
+                    <a href="#">Prescriptions</a>
+                    <a href="#">Contact</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 footer-links">
+                    <h6>Services</h6>
+                    <a href="#">Online Consultation</a>
+                    <a href="#">Medicine Delivery</a>
+                    <a href="#">Health Checkups</a>
+                    <a href="#">Senior Care</a>
+                    <a href="#">Chronic Disease Management</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-accent">Contact Us</h6>
+                    <p class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2"></i> +91 98765 43210
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2"></i> care@medicare.com
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-clock me-2"></i> 24/7 Emergency: +91 99999 88888
+                    </p>
+                    <div class="alert alert-light small" role="alert">
+                        <i class="fas fa-exclamation-circle text-primary me-1"></i>
+                        Always consult a doctor before taking medicines
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Licenses</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Simple script for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add to cart button animation
+            const addToCartButtons = document.querySelectorAll('.btn-add-to-cart');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check me-2"></i> Added!';
+                    this.style.background = 'linear-gradient(to right, #28a745, #20c997)';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = 'linear-gradient(to right, var(--primary), #2a9d8f)';
+                    }, 1500);
+                    
+                    // Update cart count in navbar (simple example)
+                    const cartCount = document.querySelector('.btn-outline-light');
+                    if(cartCount) {
+                        let currentCount = parseInt(cartCount.textContent.match(/\d+/)[0]) || 0;
+                        cartCount.innerHTML = `<i class="fas fa-shopping-cart me-1"></i> Cart (${currentCount + 1})`;
+                    }
+                });
+            });
+            
+            // Category filter buttons
+            const categoryButtons = document.querySelectorAll('.btn-outline-primary');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar-custom');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '10px 0';
+                    navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                } else {
+                    navbar.style.padding = '15px 0';
+                    navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

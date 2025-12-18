@@ -4,75 +4,750 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Pharmacy</title>
+    <title>About Us - MediCare Pharmacy</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+            padding-top: 80px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Modern Navbar */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: all 0.3s;
+            padding: 8px 16px !important;
+            border-radius: 6px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Hero About Section */
+        .about-hero {
+            background: linear-gradient(rgba(42, 157, 143, 0.9), rgba(38, 70, 83, 0.9)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .about-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        /* About Content */
+        .about-content {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+        
+        .mission-card, .vision-card {
+            background: linear-gradient(135deg, #f8fafc, #e9f5f3);
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .mission-icon, .vision-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Team Section */
+        .team-section {
+            margin: 80px 0;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-img {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .team-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .team-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .team-social a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: #f1f1f1;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin: 0 5px;
+            color: var(--secondary);
+            transition: all 0.3s;
+        }
+        
+        .team-social a:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Values Section */
+        .values-section {
+            background: linear-gradient(135deg, #f8fafc, #e9f5f3);
+            border-radius: 20px;
+            padding: 60px 0;
+            margin: 80px 0;
+        }
+        
+        .value-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-content {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            margin: 80px 0;
+        }
+        
+        .btn-cta {
+            background: white;
+            color: var(--primary);
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-cta:hover {
+            background: var(--accent);
+            color: var(--secondary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        .footer-custom {
+            background: linear-gradient(135deg, var(--secondary), #1a3240);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links h6 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                padding: 30px 20px;
+            }
+            
+            .timeline:before {
+                left: 30px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px !important;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+            
+            .cta-section {
+                padding: 40px 20px;
+            }
+            
+            .navbar-nav {
+                background: rgba(38, 70, 83, 0.95);
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="brand-logo">
+                    <i class="fas fa-pills"></i>
+                </div>
+                MediCare
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i> About Us
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="fas fa-phone-alt me-1"></i> Contact
+                        </a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-outline-light rounded-pill px-4" href="#">
+                            <i class="fas fa-shopping-cart me-1"></i> Cart
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-<!-- Navbar (same as home page) -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Hero About Section -->
+    <div class="about-hero">
+        <div class="container">
+            <h1>About MediCare Pharmacy</h1>
+            <p class="lead">Your trusted partner in health and wellness for over 15 years. We're committed to providing quality healthcare with compassion and integrity.</p>
+        </div>
+    </div>
+
+    <!-- About Content -->
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">💊 Pharmacy</a>
-        <div class="collapse navbar-collapse show">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'about' %}">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- About Section -->
-<div class="container my-5">
-    <div class="row align-items-center">
-        <!-- Image -->
-        <div class="col-md-6 mb-4 mb-md-0">
-            <img src="{%  static 'css/download.jfif' %}" alt="">
-        </div>
-
-        <!-- Text -->
-        <div class="col-md-6">
-            <h2 class="fw-bold mb-3">About Us</h2>
-            <p class="lead">
-                Welcome to <strong>Pharmacy</strong>, your trusted online medical store. 
-                We provide high-quality medicines and health products at your doorstep. 
-                Our mission is to ensure safe and reliable access to healthcare products for everyone.
-            </p>
-            <p>
-                With years of experience in the pharmaceutical industry, our team is committed 
-                to serving you with care, professionalism, and timely delivery. Your health is our priority.
-            </p>
-            <a href="/" class="btn btn-primary mt-3">Explore Medicines</a>
-        </div>
-    </div>
-</div>
-
-<!-- Footer (same as home page) -->
-<footer class="bg-dark text-light mt-5">
-    <div class="container py-4">
-        <div class="row text-center text-md-start">
-            <div class="col-md-6 mb-2">
-                <h6 class="fw-bold mb-1">💊 Pharmacy</h6>
-                <small>Trusted medical store for your family</small>
+        <div class="about-content">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pharmacy" class="img-fluid rounded-3 shadow" style="max-height: 300px;">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start">Our Story</h2>
+                    <p class="lead mb-4">
+                        Welcome to <strong class="text-primary">MediCare Pharmacy</strong>, your trusted online medical store. 
+                        We provide high-quality medicines and health products delivered right to your doorstep.
+                    </p>
+                    <p class="mb-4">
+                        Founded in 2010, we started as a small neighborhood pharmacy with a simple mission: to make healthcare accessible and affordable for everyone. Today, we serve thousands of customers across the country with the same commitment to quality and care.
+                    </p>
+                    <p>
+                        With years of experience in the pharmaceutical industry, our team is committed to serving you with professionalism, accuracy, and timely delivery. Your health is, and always will be, our top priority.
+                    </p>
+                </div>
             </div>
-            <div class="col-md-6 text-md-end">
-                <small>© 2025 Pharmacy | All rights reserved</small>
+            
+            <!-- Mission & Vision -->
+            <div class="row mt-5">
+                <div class="col-md-6 mb-4">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To provide accessible, affordable, and high-quality healthcare products and services to every household, ensuring safety, reliability, and trust in every transaction.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="vision-card">
+                        <div class="vision-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>To become India's most trusted healthcare partner, revolutionizing pharmacy services through technology while maintaining the personal touch of community care.</p>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <!-- Our Values -->
+        <div class="values-section">
+            <div class="container">
+                <h2 class="section-title">Our Core Values</h2>
+                <div class="row">
+                    <div class="col-md-3 col-6 value-box">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>Trust & Safety</h5>
+                        <p class="small">Genuine products with verified sources</p>
+                    </div>
+                    <div class="col-md-3 col-6 value-box">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h5>Care & Compassion</h5>
+                        <p class="small">Treating every customer like family</p>
+                    </div>
+                    <div class="col-md-3 col-6 value-box">
+                        <div class="value-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5>Timely Service</h5>
+                        <p class="small">Fast delivery and 24/7 availability</p>
+                    </div>
+                    <div class="col-md-3 col-6 value-box">
+                        <div class="value-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5>Excellence</h5>
+                        <p class="small">Highest standards in everything we do</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Our Journey Timeline -->
+        <div class="container my-5">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-primary">2010</h4>
+                        <h5>Founded MediCare</h5>
+                        <p>Started as a single store in Delhi with a vision to provide authentic medicines.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-primary">2014</h4>
+                        <h5>Expanded to 5 Stores</h5>
+                        <p>Opened branches in NCR region, serving over 10,000 customers monthly.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-primary">2018</h4>
+                        <h5>Launched Online Platform</h5>
+                        <p>Introduced e-commerce website and app for convenient medicine ordering.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4 class="text-primary">2023</h4>
+                        <h5>National Recognition</h5>
+                        <p>Awarded "Best Online Pharmacy" by Healthcare Excellence Awards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Team Section -->
+        <div class="team-section">
+            <h2 class="section-title">Meet Our Leadership</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Dr. Sharma">
+                        </div>
+                        <div class="team-info">
+                            <h5>Dr. Wahab Khan</h5>
+                            <p class="text-primary mb-2">Chief Pharmacist</p>
+                            <p class="small">15+ years of pharmaceutical experience</p>
+                            <div class="team-social mt-3">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1594824434340-7e7dfc37cabb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Ms. Patel">
+                        </div>
+                        <div class="team-info">
+                            <h5>Ms. Ali </h5>
+                            <p class="text-primary mb-2">Operations Head</p>
+                            <p class="small">Ensuring seamless delivery and service</p>
+                            <div class="team-social mt-3">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card">
+                        <div class="team-img">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Mr. Kumar">
+                        </div>
+                        <div class="team-info">
+                            <h5>Mr. Ameet Kumar Dhera</h5>
+                            <p class="text-primary mb-2">Customer Care Head</p>
+                            <p class="small">Dedicated to customer satisfaction</p>
+                            <div class="team-social mt-3">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="mb-4">Ready to Experience MediCare?</h2>
+            <p class="lead mb-5">Join thousands of satisfied customers who trust us for their healthcare needs.</p>
+            <a href="/" class="btn btn-cta me-3">
+                <i class="fas fa-shopping-cart me-2"></i> Shop Now
+            </a>
+            <a href="#" class="btn btn-outline-light rounded-pill px-4">
+                <i class="fas fa-phone-alt me-2"></i> Contact Us
+            </a>
+        </div>
     </div>
-</footer>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">MediCare</div>
+                    <p>Your trusted partner in health and wellness since 2010. We provide genuine medicines with care and responsibility.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 footer-links">
+                    <h6>Quick Links</h6>
+                    <a href="/">Home</a>
+                    <a href="{% url 'about' %}">About Us</a>
+                    <a href="#">Medicines</a>
+                    <a href="#">Prescriptions</a>
+                    <a href="#">Contact</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 footer-links">
+                    <h6>Services</h6>
+                    <a href="#">Online Consultation</a>
+                    <a href="#">Medicine Delivery</a>
+                    <a href="#">Health Checkups</a>
+                    <a href="#">Senior Care</a>
+                    <a href="#">Chronic Disease Management</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-accent">Contact Us</h6>
+                    <p class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2"></i> +91 98765 43210
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2"></i> care@medicare.com
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-clock me-2"></i> 24/7 Emergency: +91 99999 88888
+                    </p>
+                    <div class="alert alert-light small" role="alert">
+                        <i class="fas fa-exclamation-circle text-primary me-1"></i>
+                        Always consult a doctor before taking medicines
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Licenses</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-custom');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 0';
+                navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            }
+        });
+        
+        // Animation for timeline items
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            timelineItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+        });
+    </script>
 </body>
 </html>

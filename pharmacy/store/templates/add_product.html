@@ -4,117 +4,720 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product - Pharmacy</title>
+    <title>Add Medicine - MediCare Pharmacy</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9f5f3 100%);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Modern Navbar */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: all 0.3s;
+            padding: 8px 16px !important;
+            border-radius: 6px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: none;
+            transition: transform 0.3s;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, var(--primary), #248f7c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .form-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+        }
+        
+        .form-body {
+            padding: 40px;
+        }
+        
+        /* Form Elements */
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(42, 157, 143, 0.25);
+        }
+        
+        .input-group-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        /* File Upload Custom */
+        .file-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(42, 157, 143, 0.05);
+        }
+        
+        .file-upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(42, 157, 143, 0.1);
+        }
+        
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        /* Pill Badges */
+        .badge-pill {
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: 500;
+        }
+        
+        /* Submit Button */
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #248f7c, var(--secondary));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(42, 157, 143, 0.3);
+        }
+        
+        /* Preview Card */
+        .preview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .preview-img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        /* Alert Messages */
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Footer */
+        .footer-custom {
+            background: linear-gradient(135deg, var(--secondary), #1a3240);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .form-body {
+                padding: 25px;
+            }
+            
+            .navbar-nav {
+                background: rgba(38, 70, 83, 0.95);
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
 </head>
-<body class="bg-light">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">💊 Pharmacy</a>
-        <div class="collapse navbar-collapse show">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/add_product">Add Product</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-            </ul>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="brand-logo">
+                    <i class="fas fa-pills"></i>
+                </div>
+                MediCare
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/add_product">
+                            <i class="fas fa-plus-circle me-1"></i> Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-box me-1"></i> Inventory
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- Add Product Form -->
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-            <div class="card border-0 shadow-lg rounded-4">
-
-                <!-- Header -->
-                <div class="card-header bg-primary text-white text-center py-3 rounded-top">
-                    <h4 class="fw-bold mb-0">
-                        🩺 Add New Medicine
-                    </h4>
-                    <small class="opacity-75">
-                        Enter medicine details carefully
-                    </small>
+    <!-- Main Content -->
+    <div class="container my-5 animate-fade">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="text-center mb-5">
+                    <h1 class="fw-bold text-primary">Add New Medicine</h1>
+                    <p class="lead text-muted">Fill in the details below to add a new medicine to your inventory</p>
                 </div>
-
-                <!-- Body -->
-                <div class="card-body p-4">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-
-                        <!-- Medicine Name -->
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Medicine Name
-                            </label>
-                            <input type="text"
-                                   name="med_name"
-                                   class="form-control form-control-lg"
-                                   placeholder="e.g. Paracetamol 500mg"
-                                   required>
+                
+                <!-- Messages/Alerts -->
+                {% if messages %}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-custom alert-dismissible fade show" role="alert">
+                            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-circle{% endif %} me-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
-
-                        <!-- Price -->
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Price (Rs)
-                            </label>
-                            <input type="number"
-                                   name="med_price"
-                                   class="form-control form-control-lg"
-                                   placeholder="e.g. 120"
-                                   required>
-                        </div>
-
-                        <!-- Image Upload -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">
-                                Medicine Image
-                            </label>
-                            <input type="file"
-                                   name="med_img"
-                                   class="form-control"
-                                   accept="image/*"
-                                   required>
-                            <small class="text-muted">
-                                Upload clear product image (JPG/PNG)
-                            </small>
-                        </div>
-
-                        <!-- Button -->
-                        <div class="d-grid">
-                            <button type="submit"
-                                    class="btn btn-primary btn-lg fw-bold">
-                                ➕ Add Medicine
-                            </button>
-                        </div>
-                    </form>
+                        {% endfor %}
+                    </div>
                 </div>
-
+                {% endif %}
+                
+                <div class="row g-4">
+                    <!-- Form Column -->
+                    <div class="col-lg-7">
+                        <div class="form-card">
+                            <div class="form-header">
+                                <div class="form-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h3 class="fw-bold mb-2">Medicine Details</h3>
+                                <p class="mb-0 opacity-75">All fields marked with * are required</p>
+                            </div>
+                            
+                            <div class="form-body">
+                                <form method="POST" enctype="multipart/form-data" id="medicineForm">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Medicine Name -->
+                                    <div class="mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-capsules me-1 text-primary"></i>
+                                            Medicine Name *
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-prescription"></i>
+                                            </span>
+                                            <input type="text"
+                                                   name="med_name"
+                                                   class="form-control"
+                                                   placeholder="e.g. Paracetamol 500mg Tablets"
+                                                   required
+                                                   id="medName">
+                                        </div>
+                                        <small class="text-muted">Enter the complete medicine name with strength</small>
+                                    </div>
+                                    
+                                  
+                                    
+                                    <!-- Price & Stock -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <label class="form-label">
+                                                <i class="fas fa-rupee-sign me-1 text-primary"></i>
+                                                Price (₹) *
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₹</span>
+                                                <input type="number"
+                                                       name="med_price"
+                                                       class="form-control"
+                                                       placeholder="0.00"
+                                                       min="0"
+                                                       step="0.01"
+                                                       required
+                                                       id="medPrice">
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <!-- Image Upload -->
+                                    <div class="mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-camera me-1 text-primary"></i>
+                                            Medicine Image *
+                                        </label>
+                                        
+                                        <div class="file-upload-area" id="dropArea">
+                                            <div class="upload-icon">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                            </div>
+                                            <h5 class="mb-2">Drag & Drop or Click to Upload</h5>
+                                            <p class="text-muted mb-3">Upload clear product image (JPG, PNG, or WebP)</p>
+                                            <input type="file"
+                                                   name="med_img"
+                                                   class="form-control d-none"
+                                                   accept="image/*"
+                                                   required
+                                                   id="fileInput">
+                                            <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('fileInput').click()">
+                                                <i class="fas fa-search me-1"></i> Browse Files
+                                            </button>
+                                            <div class="mt-3" id="fileName"></div>
+                                        </div>
+                                        <small class="text-muted">Recommended size: 500x500px, Max size: 2MB</small>
+                                    </div>
+                                    
+                                    <!-- Submit Button -->
+                                    <div class="d-grid mt-4">
+                                        <button type="submit" class="btn-submit">
+                                            <i class="fas fa-plus-circle me-2"></i>
+                                            Add Medicine to Inventory
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Preview Column -->
+                    <div class="col-lg-5">
+                        <div class="sticky-top" style="top: 100px;">
+                            <div class="preview-card">
+                                <h4 class="fw-bold mb-4 text-primary">
+                                    <i class="fas fa-eye me-2"></i> Preview
+                                </h4>
+                                
+                                <!-- Image Preview -->
+                                <div class="text-center mb-4">
+                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                         class="preview-img" 
+                                         alt="Preview"
+                                         id="imagePreview">
+                                </div>
+                                
+                                <!-- Details Preview -->
+                                <div class="mb-3">
+                                    <h5 class="fw-bold text-secondary" id="previewName">Medicine Name</h5>
+                                    <p class="text-muted mb-2" id="previewCategory">Category: Not specified</p>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-rupee-sign text-success me-2"></i>
+                                            <div>
+                                                <small class="text-muted d-block">Price</small>
+                                                <h6 class="fw-bold mb-0" id="previewPrice">₹0.00</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-box text-info me-2"></i>
+                                            <div>
+                                                <small class="text-muted d-block">Stock</small>
+                                                <h6 class="fw-bold mb-0" id="previewStock">0 units</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <small class="text-muted d-block mb-1">Manufacturer</small>
+                                    <p class="fw-semibold mb-2" id="previewManufacturer">Not specified</p>
+                                    
+                                    <small class="text-muted d-block mb-1">Expiry Date</small>
+                                    <p class="fw-semibold mb-2" id="previewExpiry">Not specified</p>
+                                </div>
+                                
+                                <div class="alert alert-info alert-custom small">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Note:</strong> This is a live preview. The actual product will appear like this in your inventory.
+                                </div>
+                                
+                                <!-- Quick Stats -->
+                                <div class="mt-4 pt-3 border-top">
+                                    <h6 class="fw-bold mb-3">Inventory Stats</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-primary badge-pill">Today: 0</span>
+                                        <span class="badge bg-success badge-pill">This Month: 0</span>
+                                        <span class="badge bg-secondary badge-pill">Total: 0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo" style="font-size: 1.8rem;">MediCare</div>
+                    <p class="mb-3">Your trusted partner in health and wellness since 2010.</p>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8 text-lg-end">
+                    <p class="mb-1">
+                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
+                    </p>
+                    <p class="mb-1">
+                        <i class="fas fa-phone me-2"></i> +91 98765 43210
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-envelope me-2"></i> admin@medicare.com
+                    </p>
+                    <div class="alert alert-light small d-inline-block" role="alert">
+                        <i class="fas fa-shield-alt text-primary me-1"></i>
+                        Secure admin panel • GDPR Compliant
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light">Terms of Service</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<!-- Footer -->
-<footer class="bg-dark text-light mt-5">
-    <div class="container py-4 text-center">
-        <small>© 2025 Pharmacy | All rights reserved</small>
-    </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Live Preview Update
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form elements
+            const medName = document.getElementById('medName');
+            const medPrice = document.getElementById('medPrice');
+            const manufacturer = document.getElementById('manufacturer');
+            const expiryDate = document.getElementById('expiryDate');
+            const description = document.getElementById('description');
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const fileName = document.getElementById('fileName');
+            
+            // Get preview elements
+            const previewName = document.getElementById('previewName');
+            const previewPrice = document.getElementById('previewPrice');
+            const previewManufacturer = document.getElementById('previewManufacturer');
+            const previewExpiry = document.getElementById('previewExpiry');
+            const previewCategory = document.getElementById('previewCategory');
+            const previewStock = document.getElementById('previewStock');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            // Update preview on input change
+            medName.addEventListener('input', function() {
+                previewName.textContent = this.value || 'Medicine Name';
+            });
+            
+            medPrice.addEventListener('input', function() {
+                previewPrice.textContent = '₹' + (this.value ? parseFloat(this.value).toFixed(2) : '0.00');
+            });
+            
+            document.querySelector('select[name="med_category"]').addEventListener('change', function() {
+                previewCategory.textContent = 'Category: ' + (this.options[this.selectedIndex].text || 'Not specified');
+            });
+            
+            document.querySelector('input[name="med_stock"]').addEventListener('input', function() {
+                previewStock.textContent = this.value + ' units';
+            });
+            
+            manufacturer.addEventListener('input', function() {
+                previewManufacturer.textContent = this.value || 'Not specified';
+            });
+            
+            expiryDate.addEventListener('change', function() {
+                if(this.value) {
+                    const date = new Date(this.value);
+                    previewExpiry.textContent = date.toLocaleDateString('en-IN', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                } else {
+                    previewExpiry.textContent = 'Not specified';
+                }
+            });
+            
+            // File upload handling
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelect(e);
+            });
+            
+            // Drag and drop functionality
+            dropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            dropArea.addEventListener('dragleave', function() {
+                this.classList.remove('dragover');
+            });
+            
+            dropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                if(e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect(e);
+                }
+            });
+            
+            function handleFileSelect(e) {
+                const file = e.target.files || e.dataTransfer.files;
+                if(file.length) {
+                    const fileNameText = file[0].name;
+                    const fileSize = (file[0].size / 1024 / 1024).toFixed(2); // MB
+                    
+                    fileName.innerHTML = `
+                        <div class="alert alert-success alert-custom small py-2">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>${fileNameText}</strong> (${fileSize} MB)
+                        </div>
+                    `;
+                    
+                    // Preview image
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file[0]);
+                }
+            }
+            
+            // Form validation
+            document.getElementById('medicineForm').addEventListener('submit', function(e) {
+                const name = medName.value.trim();
+                const price = medPrice.value;
+                
+                if(!name) {
+                    e.preventDefault();
+                    showAlert('Please enter medicine name', 'danger');
+                    medName.focus();
+                    return;
+                }
+                
+                if(!price || parseFloat(price) <= 0) {
+                    e.preventDefault();
+                    showAlert('Please enter a valid price', 'danger');
+                    medPrice.focus();
+                    return;
+                }
+                
+                // Show success message
+                showAlert('Adding medicine to inventory...', 'success');
+            });
+            
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-custom alert-dismissible fade show`;
+                alertDiv.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                const container = document.querySelector('.container .row:first-child');
+                container.parentNode.insertBefore(alertDiv, container);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if(alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar-custom');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '10px 0';
+                } else {
+                    navbar.style.padding = '15px 0';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

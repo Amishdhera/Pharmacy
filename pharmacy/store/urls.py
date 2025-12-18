@@ -21,6 +21,7 @@ from . import views  # Apne hi folder se views import karein
 urlpatterns = [
     path('', views.home ,name='home'),
     path('about/', views.about, name="about" ),
+    path('contact/', views.contact, name="contact" ),
     path('add_product/', views.product, name='add_product'),
 
 ]
