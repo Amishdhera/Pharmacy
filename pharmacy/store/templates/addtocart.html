@@ -1,0 +1,918 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - MediCare Pharmacy</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9f5f3 100%);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Modern Navbar */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: all 0.3s;
+            padding: 8px 16px !important;
+            border-radius: 6px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Cart Page Header */
+        .cart-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .cart-icon-large {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Cart Items */
+        .cart-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .cart-item:hover {
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f9fa;
+            padding: 10px;
+            margin-right: 20px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        .remove-btn {
+            color: var(--danger);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Summary Card */
+        .summary-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .summary-item.total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: none;
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-cart-icon {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        /* Buttons */
+        .btn-checkout {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-checkout:hover {
+            background: linear-gradient(135deg, #248f7c, var(--secondary));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(42, 157, 143, 0.3);
+        }
+        
+        .btn-continue {
+            background: #f8f9fa;
+            color: var(--secondary);
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-continue:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Footer */
+        .footer-custom {
+            background: linear-gradient(135deg, var(--secondary), #1a3240);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links h6 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .cart-item-img {
+                margin-right: 0;
+            }
+            
+            .navbar-nav {
+                background: rgba(38, 70, 83, 0.95);
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <div class="brand-logo">
+                    <i class="fas fa-pills"></i>
+                </div>
+                MediCare
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_product">
+                            <i class="fas fa-plus-circle me-1"></i> Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-box me-1"></i> Inventory
+                        </a>
+                    </li>
+                    <li class="nav-item position-relative">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-shopping-cart me-1"></i> Cart
+                            <span class="cart-badge" id="cartCount">3</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5 animate-fade">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <div class="cart-icon-large">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h1 class="fw-bold mb-3">Your Shopping Cart</h1>
+            <p class="lead mb-0">Review your items and proceed to checkout</p>
+        </div>
+        
+        <div class="row">
+            <!-- Cart Items Column -->
+            <div class="col-lg-8">
+                <div class="cart-container">
+                    <h3 class="fw-bold mb-4">
+                        <i class="fas fa-shopping-basket me-2 text-primary"></i>
+                        Cart Items (<span id="itemCount">3</span>)
+                    </h3>
+                    
+                    <!-- Cart Items List -->
+                    <div id="cartItems">
+                        <!-- Item 1 -->
+                        <div class="cart-item">
+                            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Paracetamol" 
+                                 class="cart-item-img">
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold">Paracetamol 500mg Tablets</h5>
+                                <p class="text-muted mb-2">Strip of 10 tablets</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary fs-5">₹45.00</span>
+                                        <span class="text-muted ms-2"><del>₹50.00</del></span>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn decrease" data-id="1">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="qty-input" value="2" min="1" max="10" data-id="1">
+                                        <button class="qty-btn increase" data-id="1">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <button class="remove-btn" data-id="1">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 2 -->
+                        <div class="cart-item">
+                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Cough Syrup" 
+                                 class="cart-item-img">
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold">Cough Syrup 100ml</h5>
+                                <p class="text-muted mb-2">For dry cough</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary fs-5">₹120.00</span>
+                                        <span class="text-success ms-2">10% off</span>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn decrease" data-id="2">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="qty-input" value="1" min="1" max="5" data-id="2">
+                                        <button class="qty-btn increase" data-id="2">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <button class="remove-btn" data-id="2">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 3 -->
+                        <div class="cart-item">
+                            <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                 alt="Vitamin C" 
+                                 class="cart-item-img">
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold">Vitamin C 1000mg</h5>
+                                <p class="text-muted mb-2">Immune booster</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary fs-5">₹299.00</span>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn decrease" data-id="3">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="qty-input" value="1" min="1" max="3" data-id="3">
+                                        <button class="qty-btn increase" data-id="3">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <button class="remove-btn" data-id="3">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty Cart Message (hidden by default) -->
+                    <div class="empty-cart d-none" id="emptyCart">
+                        <div class="empty-cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Your Cart is Empty</h3>
+                        <p class="text-muted mb-4">Looks like you haven't added any medicines to your cart yet.</p>
+                        <a href="/" class="btn btn-continue">
+                            <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                        </a>
+                    </div>
+                    
+                    <!-- Cart Actions -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/" class="btn btn-continue">
+                            <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                        </a>
+                        <button class="btn btn-outline-danger" id="clearCart">
+                            <i class="fas fa-trash me-2"></i> Clear Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Delivery Info -->
+                <div class="cart-container">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-truck me-2 text-primary"></i>
+                        Delivery Information
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Delivery Address</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter your delivery address">123 Health Street, Medical City, Delhi 110001</textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Delivery Time</label>
+                            <select class="form-select">
+                                <option>Standard Delivery (2-3 days)</option>
+                                <option>Express Delivery (Same day)</option>
+                                <option>Next Day Delivery</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Free delivery on orders above ₹500. Emergency delivery available 24/7.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Order Summary Column -->
+            <div class="col-lg-4">
+                <div class="summary-card">
+                    <h3 class="fw-bold mb-4">
+                        <i class="fas fa-receipt me-2 text-primary"></i>
+                        Order Summary
+                    </h3>
+                    
+                    <div class="summary-item">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹464.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Discount</span>
+                        <span class="text-success" id="discount">-₹5.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Delivery Charges</span>
+                        <span id="delivery">₹40.00</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total Amount</span>
+                        <span id="total">₹499.00</span>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="prescriptionCheck" checked>
+                        <label class="form-check-label" for="prescriptionCheck">
+                            I have a valid prescription for all prescription medicines
+                        </label>
+                    </div>
+                    
+                    <button class="btn-checkout" id="checkoutBtn">
+                        <i class="fas fa-lock me-2"></i>
+                        Proceed to Checkout
+                    </button>
+                    
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Payment Methods</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-light text-dark p-2">
+                                <i class="fab fa-google-pay me-1"></i> Google Pay
+                            </span>
+                            <span class="badge bg-light text-dark p-2">
+                                <i class="fas fa-mobile-alt me-1"></i> UPI
+                            </span>
+                            <span class="badge bg-light text-dark p-2">
+                                <i class="fas fa-credit-card me-1"></i> Card
+                            </span>
+                            <span class="badge bg-light text-dark p-2">
+                                <i class="fas fa-money-bill-wave me-1"></i> Cash
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-success mt-4">
+                        <i class="fas fa-tag me-2"></i>
+                        <strong>Special Offer:</strong> Get 10% off on your first order using code: <strong>MEDICARE10</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">MediCare</div>
+                    <p>Your trusted partner in health and wellness since 2010. We provide genuine medicines with care and responsibility.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 footer-links">
+                    <h6>Quick Links</h6>
+                    <a href="/">Home</a>
+                    <a href="/add_product">Add Product</a>
+                    <a href="{% url 'about' %}">About Us</a>
+                    <a href="#">Medicines</a>
+                    <a href="#">Prescriptions</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 footer-links">
+                    <h6>Services</h6>
+                    <a href="#">Online Consultation</a>
+                    <a href="#">Medicine Delivery</a>
+                    <a href="#">Health Checkups</a>
+                    <a href="#">Senior Care</a>
+                    <a href="#">Emergency Services</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-accent">Need Help?</h6>
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2"></i> +91 98765 43210
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2"></i> support@medicare.com
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-clock me-2"></i> 24/7 Customer Support
+                    </p>
+                    <div class="alert alert-light small" role="alert">
+                        <i class="fas fa-exclamation-circle text-primary me-1"></i>
+                        Prescription required for scheduled medicines
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Return Policy</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Cart Management System
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cart items data
+            let cartItems = [
+                { id: 1, name: "Paracetamol 500mg Tablets", price: 45.00, quantity: 2, discount: 5.00 },
+                { id: 2, name: "Cough Syrup 100ml", price: 120.00, quantity: 1, discount: 12.00 },
+                { id: 3, name: "Vitamin C 1000mg", price: 299.00, quantity: 1, discount: 0.00 }
+            ];
+            
+            const deliveryCharge = 40.00;
+            
+            // Update cart display
+            function updateCartDisplay() {
+                // Calculate totals
+                let subtotal = 0;
+                let totalDiscount = 0;
+                
+                cartItems.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    totalDiscount += item.discount * item.quantity;
+                });
+                
+                const total = subtotal - totalDiscount + deliveryCharge;
+                
+                // Update UI
+                document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+                document.getElementById('discount').textContent = `-₹${totalDiscount.toFixed(2)}`;
+                document.getElementById('delivery').textContent = `₹${deliveryCharge.toFixed(2)}`;
+                document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+                
+                // Update item count
+                const itemCount = cartItems.length;
+                document.getElementById('itemCount').textContent = itemCount;
+                document.getElementById('cartCount').textContent = itemCount;
+                
+                // Show/hide empty cart message
+                const emptyCart = document.getElementById('emptyCart');
+                const cartItemsDiv = document.getElementById('cartItems');
+                
+                if (itemCount === 0) {
+                    emptyCart.classList.remove('d-none');
+                    cartItemsDiv.classList.add('d-none');
+                } else {
+                    emptyCart.classList.add('d-none');
+                    cartItemsDiv.classList.remove('d-none');
+                }
+            }
+            
+            // Quantity controls
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const input = document.querySelector(`.qty-input[data-id="${id}"]`);
+                    let value = parseInt(input.value);
+                    
+                    if (this.classList.contains('increase')) {
+                        value++;
+                    } else if (this.classList.contains('decrease') && value > 1) {
+                        value--;
+                    }
+                    
+                    input.value = value;
+                    
+                    // Update cart data
+                    const item = cartItems.find(item => item.id === id);
+                    if (item) {
+                        item.quantity = value;
+                        updateCartDisplay();
+                    }
+                });
+            });
+            
+            // Quantity input change
+            document.querySelectorAll('.qty-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    let value = parseInt(this.value);
+                    
+                    if (value < 1) value = 1;
+                    if (value > 10) value = 10;
+                    
+                    this.value = value;
+                    
+                    // Update cart data
+                    const item = cartItems.find(item => item.id === id);
+                    if (item) {
+                        item.quantity = value;
+                        updateCartDisplay();
+                    }
+                });
+            });
+            
+            // Remove item
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    
+                    if (confirm('Are you sure you want to remove this item from your cart?')) {
+                        cartItems = cartItems.filter(item => item.id !== id);
+                        
+                        // Remove from UI
+                        const cartItem = this.closest('.cart-item');
+                        cartItem.style.opacity = '0';
+                        cartItem.style.transform = 'translateX(-20px)';
+                        
+                        setTimeout(() => {
+                            cartItem.remove();
+                            updateCartDisplay();
+                            
+                            // Show success message
+                            showAlert('Item removed from cart', 'success');
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Clear cart
+            document.getElementById('clearCart').addEventListener('click', function() {
+                if (cartItems.length === 0) {
+                    showAlert('Your cart is already empty', 'info');
+                    return;
+                }
+                
+                if (confirm('Are you sure you want to clear your entire cart?')) {
+                    cartItems = [];
+                    
+                    // Remove all items with animation
+                    const items = document.querySelectorAll('.cart-item');
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateX(-20px)';
+                        }, index * 100);
+                    });
+                    
+                    setTimeout(() => {
+                        document.getElementById('cartItems').innerHTML = '';
+                        updateCartDisplay();
+                        showAlert('Cart cleared successfully', 'success');
+                    }, items.length * 100 + 300);
+                }
+            });
+            
+            // Checkout button
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if (cartItems.length === 0) {
+                    showAlert('Please add items to your cart before checkout', 'warning');
+                    return;
+                }
+                
+                const prescriptionCheck = document.getElementById('prescriptionCheck');
+                if (!prescriptionCheck.checked) {
+                    showAlert('Please confirm you have valid prescriptions for prescription medicines', 'warning');
+                    return;
+                }
+                
+                // Show loading
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+                this.disabled = true;
+                
+                // Simulate checkout process
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    
+                    // Show success message
+                    const total = document.getElementById('total').textContent;
+                    showAlert(`Order placed successfully! Total amount: ${total}. Our team will contact you shortly.`, 'success');
+                    
+                    // Clear cart after successful order
+                    setTimeout(() => {
+                        cartItems = [];
+                        document.getElementById('cartItems').innerHTML = '';
+                        updateCartDisplay();
+                    }, 2000);
+                }, 2000);
+            });
+            
+            // Alert function
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
+                alertDiv.style.zIndex = '9999';
+                alertDiv.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(alertDiv);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+            
+            // Initialize cart display
+            updateCartDisplay();
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar-custom');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '10px 0';
+                } else {
+                    navbar.style.padding = '15px 0';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

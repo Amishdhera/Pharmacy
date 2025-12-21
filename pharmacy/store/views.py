@@ -14,6 +14,8 @@ def about(request):
 
 def contact(request):
      return render(request,'contact.html')
+def addtocart(request):
+     return render(request,'addtocart.html')
 
 def product(request):
 
