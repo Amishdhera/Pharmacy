@@ -1,4 +1,8 @@
 from django.contrib import admin
 from . models import Medicines
 # Register your models here.
-admin.site.register(Medicines)
+
+class MedAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'price',)
+
+admin.site.register(Medicines, MedAdmin)

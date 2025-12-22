@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render,  redirect, get_object_or_404
 from.models import Medicines
 # Create your views here.
 def home(request):
@@ -33,5 +33,15 @@ def product(request):
           return redirect('home')
 
 
+
      return render(request,'add_product.html')
 
+
+def delete(request, pk):  
+    
+    med = get_object_or_404(Medicines, pk=pk)  
+   
+    med.delete()
+
+    
+    return redirect('home')
