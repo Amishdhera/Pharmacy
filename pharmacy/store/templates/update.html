@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Medicine</title>
+</head>
+<body>
+
+<h2>Update Medicine</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Medicine Name:</label><br>
+    <input type="text" name="m_name" value="{{ med.name }}" required>
+    <br><br>
+
+    <label>Price:</label><br>
+    <input type="number" name="m_price" value="{{ med.price }}" required>
+    <br><br>
+
+    <label>Image:</label><br>
+    {% if med.image %}
+        <img src="{{ med.image.url }}" width="100"><br>
+    {% endif %}
+    <input type="file" name="m_img">
+    <br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+</body>
+</html>
