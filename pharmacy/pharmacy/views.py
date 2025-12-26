@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Medicine
 
+
 def home(request):
     if request.method == "POST":
         # Form se data lena
@@ -15,3 +16,5 @@ def home(request):
     # Data dikhane ke liye fetch karna
     medicines = Medicine.objects.all()
     return render(request, 'index.html', {'medicines': medicines})
+
+
