@@ -20,7 +20,7 @@ from . import views  # Apne hi folder se views import karein
 
 urlpatterns = [
     path('registers/',views.signup,name='registers'),
-       
+     path('login/', views.user_login, name='login'),
 
     path('', views.home ,name='home'),
     path('about/', views.about, name="about" ),

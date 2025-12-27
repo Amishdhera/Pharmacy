@@ -88,6 +88,15 @@ def signup(request):
     else:
         form = UserCreationForm()
 
-    return render(request, 'Autthentication/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
