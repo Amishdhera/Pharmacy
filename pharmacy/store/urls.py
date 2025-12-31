@@ -25,9 +25,11 @@ urlpatterns = [
     path('', views.home ,name='home'),
     path('about/', views.about, name="about" ),
     path('contact/', views.contact, name="contact" ),
-    path('addtocart/', views.addtocart, name="addtocart" ),
     path('add_product/', views.product, name='add_product'),
     path('delete/<pk>', views.delete, name='delete'),
     path('update/<pk>', views.update, name='update'),
+    path('addtocart/', views.addtocart, name="addtocart" ),
+    path('Update_item/', views.updateItem, name="Update_item" ),
+
 
 ]
