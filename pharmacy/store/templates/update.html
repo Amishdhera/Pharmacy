@@ -1,36 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Medicine</title>
-</head>
-<body>
-
-<h2>Update Medicine</h2>
-
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    <label>Medicine Name:</label><br>
-    <input type="text" name="m_name" value="{{ med.name }}" required>
-    <br><br>
-
-    <label>Price:</label><br>
-    <input type="number" name="m_price" value="{{ med.price }}" required>
-    <br><br>
-
-    <label>Image:</label><br>
-    {% if med.image %}
-        <img src="{{ med.image.url }}" width="100"><br>
-    {% endif %}
-    <input type="file" name="m_img">
-    <br><br>
-
-    <button type="submit">Update</button>
-</form>
-
-</body>
-</html> -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -44,8 +11,8 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #2a9d8f;
@@ -56,108 +23,143 @@
             --success: #28a745;
             --danger: #e76f51;
         }
-
+        
         body {
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #e9f5f3 100%);
             min-height: 100vh;
             padding-top: 80px;
         }
-
+        
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
         }
-
+        
         /* Modern Navbar */
         .navbar-custom {
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 15px 0;
         }
-
+        
         .navbar-brand {
             font-weight: 700;
             font-size: 1.8rem;
             color: white !important;
         }
-
-        .navbar-nav .nav-link {
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .nav-link {
             color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 500;
+            margin: 0 8px;
             transition: all 0.3s;
-            padding: 8px 16px;
+            padding: 8px 16px !important;
+            border-radius: 6px;
         }
-
-        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+        
+        .nav-link:hover, .nav-link.active {
             color: white !important;
             background-color: rgba(255, 255, 255, 0.15);
         }
-
-        .form-card {
+        
+        /* Update Card */
+        .update-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            padding: 30px;
             border: none;
             transition: transform 0.3s;
         }
-
-        .form-card:hover {
+        
+        .update-card:hover {
             transform: translateY(-5px);
         }
-
-        .form-header {
-            background: linear-gradient(135deg, var(--primary), #248f7c);
+        
+        .update-header {
+            background: linear-gradient(135deg, #f39c12, #e67e22); /* Orange gradient for update */
             color: white;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
         }
-
-        .form-body {
+        
+        .update-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+        }
+        
+        .update-body {
             padding: 40px;
         }
-
+        
+        /* Form Elements */
         .form-label {
             font-weight: 600;
             color: var(--secondary);
             margin-bottom: 8px;
             font-size: 0.95rem;
         }
-
-        .form-control, .form-select {
+        
+        .form-control {
             border: 2px solid #e9ecef;
             border-radius: 10px;
             padding: 12px 15px;
             font-size: 1rem;
             transition: all 0.3s;
         }
-
-        .form-control:focus, .form-select:focus {
+        
+        .form-control:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 0.25rem rgba(42, 157, 143, 0.25);
         }
-
-        .btn-submit {
+        
+        .input-group-text {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        /* Current Image Display */
+        .current-image-container {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .current-image {
+            max-width: 200px;
+            height: 200px;
+            object-fit: contain;
             border-radius: 10px;
-            padding: 15px 30px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            width: 100%;
-            margin-top: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #248f7c, var(--secondary));
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(42, 157, 143, 0.3);
-        }
-
+        
+        /* File Upload Custom */
         .file-upload-area {
             border: 2px dashed #dee2e6;
             border-radius: 10px;
@@ -167,30 +169,99 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
+        
         .file-upload-area:hover {
             border-color: var(--primary);
             background: rgba(42, 157, 143, 0.05);
         }
-
+        
         .file-upload-area.dragover {
             border-color: var(--primary);
             background: rgba(42, 157, 143, 0.1);
         }
-
+        
         .upload-icon {
             font-size: 2.5rem;
             color: var(--primary);
             margin-bottom: 15px;
         }
-
+        
+        /* Medicine Preview */
+        .preview-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .preview-img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        /* Buttons */
+        .btn-update {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-update:hover {
+            background: linear-gradient(135deg, #d68910, #d35400);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-cancel:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        /* Alert Messages */
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Footer */
         .footer-custom {
             background: linear-gradient(135deg, var(--secondary), #1a3240);
             color: white;
             padding: 40px 0 20px;
             margin-top: 80px;
         }
-
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
         .copyright {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
@@ -198,8 +269,37 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
         }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .update-body {
+                padding: 25px;
+            }
+            
+            .navbar-nav {
+                background: rgba(38, 70, 83, 0.95);
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 15px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out;
+        }
     </style>
 </head>
+
 <body>
     <!-- Modern Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
@@ -210,13 +310,13 @@
                 </div>
                 MediCare
             </a>
-
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon text-white">
                     <i class="fas fa-bars"></i>
                 </span>
             </button>
-
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -225,7 +325,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/update_product">
+                        <a class="nav-link" href="/add_product">
+                            <i class="fas fa-plus-circle me-1"></i> Add Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
                             <i class="fas fa-edit me-1"></i> Update Product
                         </a>
                     </li>
@@ -245,49 +350,182 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container my-5">
+    <div class="container my-5 animate-fade">
         <div class="row justify-content-center">
-            <div class="col-lg-7">
-                <div class="form-card">
-                    <div class="form-header">
-                        <h3 class="fw-bold mb-2">Update Medicine</h3>
-                        <p class="mb-0 opacity-75">Edit the details of the medicine below</p>
+            <div class="col-lg-8">
+                <!-- Page Header -->
+                <div class="text-center mb-5">
+                    <h1 class="fw-bold text-warning">
+                        <i class="fas fa-edit me-2"></i> Update Medicine
+                    </h1>
+                    <p class="lead text-muted">Edit the details of "<strong>{{ med.name }}</strong>" in your inventory</p>
+                </div>
+                
+                <!-- Messages/Alerts -->
+                {% if messages %}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-custom alert-dismissible fade show" role="alert">
+                            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-circle{% endif %} me-2"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="form-body">
-                        <form method="POST" enctype="multipart/form-data">
+                </div>
+                {% endif %}
+                
+                <div class="update-card">
+                    <div class="update-header">
+                        <div class="update-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">Edit Medicine Details</h3>
+                        <p class="mb-0 opacity-75">Update the information below and save changes</p>
+                    </div>
+                    
+                    <div class="update-body">
+                        <!-- Current Image -->
+                        <div class="current-image-container">
+                            <h5 class="fw-bold mb-3 text-primary">
+                                <i class="fas fa-image me-2"></i> Current Image
+                            </h5>
+                            {% if med.image %}
+                                <img src="{{ med.image.url }}" class="current-image" alt="{{ med.name }}">
+                                <p class="mb-0 text-muted">Current medicine image</p>
+                            {% else %}
+                                <div class="text-center py-4">
+                                    <i class="fas fa-image fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted mb-0">No image available</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <form method="POST" enctype="multipart/form-data" id="updateForm">
                             {% csrf_token %}
-
+                            
+                            <!-- Medicine Name -->
                             <div class="mb-4">
-                                <label class="form-label">Medicine Name *</label>
-                                <input type="text" name="m_name" class="form-control" value="{{ med.name }}" required>
+                                <label class="form-label">
+                                    <i class="fas fa-capsules me-1 text-primary"></i>
+                                    Medicine Name *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-prescription"></i>
+                                    </span>
+                                    <input type="text"
+                                           name="m_name"
+                                           class="form-control"
+                                           placeholder="Enter medicine name"
+                                           required
+                                           id="medName"
+                                           value="{{ med.name }}">
+                                </div>
+                                <small class="text-muted">Update the medicine name if needed</small>
                             </div>
-
+                            
+                            <!-- Price -->
                             <div class="mb-4">
-                                <label class="form-label">Price (₹) *</label>
-                                <input type="number" name="m_price" class="form-control" value="{{ med.price }}" required min="0" step="0.01">
+                                <label class="form-label">
+                                    <i class="fas fa-rupee-sign me-1 text-primary"></i>
+                                    Price (₹) *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    <input type="number"
+                                           name="m_price"
+                                           class="form-control"
+                                           placeholder="0.00"
+                                           min="0"
+                                           step="0.01"
+                                           required
+                                           id="medPrice"
+                                           value="{{ med.price }}">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                                <small class="text-muted">Enter the updated price in Indian Rupees</small>
                             </div>
-
+                            
+                            <!-- Image Upload -->
                             <div class="mb-4">
-                                <label class="form-label">Medicine Image *</label>
-                                {% if med.image %}
-                                    <img src="{{ med.image.url }}" width="100" class="mb-3"><br>
-                                {% endif %}
+                                <label class="form-label">
+                                    <i class="fas fa-camera me-1 text-primary"></i>
+                                    Update Image (Optional)
+                                </label>
+                                
                                 <div class="file-upload-area" id="dropArea">
                                     <div class="upload-icon">
                                         <i class="fas fa-cloud-upload-alt"></i>
                                     </div>
                                     <h5 class="mb-2">Drag & Drop or Click to Upload</h5>
-                                    <input type="file" name="m_img" class="form-control d-none" accept="image/*">
-                                    <button type="button" class="btn btn-outline-primary" onclick="document.querySelector('[name=m_img]').click()">Browse Files</button>
+                                    <p class="text-muted mb-3">Upload new image (JPG, PNG, or WebP)</p>
+                                    <input type="file"
+                                           name="m_img"
+                                           class="form-control d-none"
+                                           accept="image/*"
+                                           id="fileInput">
+                                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('fileInput').click()">
+                                        <i class="fas fa-search me-1"></i> Browse Files
+                                    </button>
+                                    <div class="mt-3" id="fileName"></div>
+                                </div>
+                                <small class="text-muted">Leave empty to keep current image. Recommended size: 500x500px</small>
+                            </div>
+                            
+                            <!-- Change History (Optional) -->
+                            <div class="alert alert-warning alert-custom">
+                                <i class="fas fa-history me-2"></i>
+                                <strong>Update History:</strong> This medicine was last updated on {{ med.updated_at|date:"F d, Y"|default:"Not available" }}
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="row g-3 mt-4">
+                                <div class="col-md-6">
+                                    <a href="javascript:history.back()" class="btn btn-cancel w-100">
+                                        <i class="fas fa-times me-2"></i> Cancel
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn-update">
+                                        <i class="fas fa-save me-2"></i>
+                                        Save Changes
+                                    </button>
                                 </div>
                             </div>
-
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn-submit">
-                                    <i class="fas fa-check-circle me-2"></i> Update Medicine
-                                </button>
-                            </div>
                         </form>
+                        
+                        <!-- Preview Section -->
+                        <div class="preview-section">
+                            <h5 class="fw-bold mb-3 text-primary">
+                                <i class="fas fa-eye me-2"></i> Live Preview
+                            </h5>
+                            <div class="row align-items-center">
+                                <div class="col-md-4 text-center">
+                                    <img src="{% if med.image %}{{ med.image.url }}{% else %}https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80{% endif %}" 
+                                         class="preview-img" 
+                                         alt="Preview"
+                                         id="imagePreview">
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="fw-bold text-secondary" id="previewName">{{ med.name }}</h6>
+                                    <div class="mt-3">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-rupee-sign text-success me-2"></i>
+                                            <div>
+                                                <small class="text-muted d-block">Updated Price</small>
+                                                <h5 class="fw-bold mb-0" id="previewPrice">₹{{ med.price }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-info alert-custom small mt-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Note:</strong> This preview updates as you make changes. The image preview updates only after file selection.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -298,18 +536,187 @@
     <footer class="footer-custom">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h5 class="mb-3">MediCare Pharmacy</h5>
-                    <p class="mb-0">Your trusted pharmacy for all your medicinal needs. We care for your health!</p>
-                    <div class="copyright">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">MediCare</div>
+                    <p class="mb-3">Your trusted partner in health and wellness since 2010.</p>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8 text-lg-end">
+                    <p class="mb-1">
+                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
+                    </p>
+                    <p class="mb-1">
+                        <i class="fas fa-phone me-2"></i> +91 98765 43210
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-envelope me-2"></i> admin@medicare.com
+                    </p>
+                    <div class="alert alert-light small d-inline-block" role="alert">
+                        <i class="fas fa-shield-alt text-primary me-1"></i>
+                        Secure admin panel • GDPR Compliant
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
                         <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light">Terms of Service</a>
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Live Preview Update
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form elements
+            const medName = document.getElementById('medName');
+            const medPrice = document.getElementById('medPrice');
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            const fileName = document.getElementById('fileName');
+            
+            // Get preview elements
+            const previewName = document.getElementById('previewName');
+            const previewPrice = document.getElementById('previewPrice');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            // Update preview on input change
+            medName.addEventListener('input', function() {
+                previewName.textContent = this.value || 'Medicine Name';
+            });
+            
+            medPrice.addEventListener('input', function() {
+                previewPrice.textContent = '₹' + (this.value ? parseFloat(this.value).toFixed(2) : '0.00');
+            });
+            
+            // File upload handling
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelect(e);
+            });
+            
+            // Drag and drop functionality
+            dropArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            dropArea.addEventListener('dragleave', function() {
+                this.classList.remove('dragover');
+            });
+            
+            dropArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                if(e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect(e);
+                }
+            });
+            
+            function handleFileSelect(e) {
+                const file = e.target.files || e.dataTransfer.files;
+                if(file.length) {
+                    const fileNameText = file[0].name;
+                    const fileSize = (file[0].size / 1024 / 1024).toFixed(2); // MB
+                    
+                    fileName.innerHTML = `
+                        <div class="alert alert-success alert-custom small py-2">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>${fileNameText}</strong> (${fileSize} MB)
+                        </div>
+                    `;
+                    
+                    // Preview image
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file[0]);
+                }
+            }
+            
+            // Form validation
+            document.getElementById('updateForm').addEventListener('submit', function(e) {
+                const name = medName.value.trim();
+                const price = medPrice.value;
+                
+                if(!name) {
+                    e.preventDefault();
+                    showAlert('Please enter medicine name', 'danger');
+                    medName.focus();
+                    return;
+                }
+                
+                if(!price || parseFloat(price) <= 0) {
+                    e.preventDefault();
+                    showAlert('Please enter a valid price', 'danger');
+                    medPrice.focus();
+                    return;
+                }
+                
+                // Show loading message
+                const submitBtn = this.querySelector('.btn-update');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Updating...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+                
+                showAlert('Updating medicine in inventory...', 'success');
+            });
+            
+            function showAlert(message, type) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-custom alert-dismissible fade show`;
+                alertDiv.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                const container = document.querySelector('.container .row:first-child');
+                container.parentNode.insertBefore(alertDiv, container);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if(alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar-custom');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '10px 0';
+                } else {
+                    navbar.style.padding = '15px 0';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

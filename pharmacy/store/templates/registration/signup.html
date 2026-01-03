@@ -1,151 +1,313 @@
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-</head>
-<body>
-    <h2>Sign Up</h2>
-    <form method="POST" action="{% url 'registers' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if form.errors %}
-            <div class="alert alert-danger">
-                <ul>
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-        <button type="submit">Sign Up</button>
-    </form>
-    
-    
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-</body>
-</html> -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicare Sign Up</title>
-    <!-- Bootstrap CDN -->
+    <title>Sign Up - MediCare Pharmacy</title>
+
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
         body {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); /* Light blue gradient for calm feel */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9f5f3 100%);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #333;
+            justify-content: center;
+            padding: 20px;
         }
-        .signup-container {
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Signup Card */
+        .signup-card {
             background: white;
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             width: 100%;
-            max-width: 500px; /* Slightly wider for more fields */
-            border: 1px solid #e0e0e0;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .header i {
-            font-size: 3rem;
-            color: #007bff; /* Medical blue */
-            margin-bottom: 0.5rem;
-        }
-        .header h2 {
-            color: #007bff;
-            font-weight: 600;
-            margin: 0;
-        }
-        .header p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            padding: 0.75rem;
-        }
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        .btn-custom {
-            background: #007bff;
+            max-width: 550px;
             border: none;
-            padding: 0.75rem;
-            width: 100%;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.3s ease;
+            transition: transform 0.3s;
         }
-        .btn-custom:hover {
-            background: #0056b3;
+        
+        .signup-card:hover {
+            transform: translateY(-5px);
         }
-        .form-label {
-            font-weight: 500;
-            color: #555;
-        }
-        .footer {
+        
+        .signup-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 30px;
             text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: #777;
+            position: relative;
+            overflow: hidden;
         }
-        .footer a {
-            color: #007bff;
+        
+        .signup-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .signup-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .signup-body {
+            padding: 40px;
+        }
+        
+        /* Form Elements */
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(42, 157, 143, 0.25);
+            background: white;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px 0 0 12px;
+            padding: 0 20px;
+        }
+        
+        /* Password Strength */
+        .password-strength {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        /* Submit Button */
+        .btn-signup {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-signup:hover {
+            background: linear-gradient(135deg, #248f7c, var(--secondary));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(42, 157, 143, 0.3);
+        }
+        
+        /* Alert Messages */
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+        }
+        
+        /* Terms Checkbox */
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .form-check-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(42, 157, 143, 0.25);
+        }
+        
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .login-link a {
+            color: var(--primary);
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
         }
-        .footer a:hover {
+        
+        .login-link a:hover {
+            color: var(--secondary);
             text-decoration: underline;
+        }
+        
+        /* Features List */
+        .features-list {
+            margin: 25px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(42, 157, 143, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .signup-body {
+                padding: 30px 20px;
+            }
+            
+            .signup-header {
+                padding: 30px 20px;
+            }
+            
+            body {
+                padding: 15px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="signup-container">
-        <div class="header">
-            <i class="fas fa-user-plus"></i> <!-- Sign up icon -->
-            <h2>Medicare Sign Up</h2>
-            <p>Join our healthcare community securely</p>
-        </div>
-        <form method="POST" action="{% url 'registers' %}">
-            {% csrf_token %}
-            <div class="row">
-                {% for field in form %}
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ field.id_for_label }}" class="form-label">
-                            {% if field.name == 'username' %}<i class="fas fa-user"></i>{% endif %}
-                            {% if field.name == 'email' %}<i class="fas fa-envelope"></i>{% endif %}
-                            {% if field.name == 'password1' %}<i class="fas fa-lock"></i>{% endif %}
-                            {% if field.name == 'password2' %}<i class="fas fa-lock"></i>{% endif %}
-                            {{ field.label }}
-                        </label>
-                        {{ field }}
-                    </div>
-                {% endfor %}
+    <div class="signup-card animate-fade">
+        <div class="signup-header">
+            <div class="signup-icon">
+                <i class="fas fa-user-plus"></i>
             </div>
-            {% if form.errors %}
-                <div class="alert alert-danger mt-3" role="alert">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <ul class="mb-0">
+            <h1 class="fw-bold mb-3">Join MediCare</h1>
+            <p class="mb-0 opacity-75">Create your account to access premium healthcare services</p>
+        </div>
+        
+        <div class="signup-body">
+            <!-- Features List -->
+            <div class="features-list">
+                <h5 class="fw-bold mb-3 text-primary">
+                    <i class="fas fa-star me-2"></i> Why Sign Up?
+                </h5>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span>Access to exclusive healthcare products</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span>Personalized medicine recommendations</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span>Fast delivery and emergency services</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span>Secure prescription management</span>
+                </div>
+            </div>
+            
+            <form method="POST" action="{% url 'registers' %}" id="signupForm">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="alert alert-danger alert-custom mb-4">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Please fix the following errors:</strong>
+                    <ul class="mb-0 mt-2 ps-3">
                         {% for field in form %}
                             {% for error in field.errors %}
-                                <li>{{ error }}</li>
+                                <li>{{ field.label }}: {{ error }}</li>
                             {% endfor %}
                         {% endfor %}
                         {% for error in form.non_field_errors %}
@@ -153,17 +315,274 @@
                         {% endfor %}
                     </ul>
                 </div>
-            {% endif %}
-            <button type="submit" class="btn btn-custom">
-                <i class="fas fa-user-plus"></i> Sign Up
-            </button>
-        </form>
-        <div class="footer">
-            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-            <p>&copy; 2023 Medicare Systems. All rights reserved.</p>
+                {% endif %}
+                
+                <!-- Username -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        <i class="fas fa-user me-1 text-primary"></i>
+                        Username *
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-id-card"></i>
+                        </span>
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               placeholder="Enter your username"
+                               required
+                               id="username"
+                               value="{{ form.username.value|default_if_none:'' }}">
+                    </div>
+                    <small class="text-muted">Choose a unique username (letters, numbers, @/./+/-/_ only)</small>
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        <i class="fas fa-envelope me-1 text-primary"></i>
+                        Email Address *
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-at"></i>
+                        </span>
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               placeholder="Enter your email"
+                               required
+                               id="email"
+                               value="{{ form.email.value|default_if_none:'' }}">
+                    </div>
+                    <small class="text-muted">We'll send verification to this email</small>
+                </div>
+                
+                <!-- Password 1 -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        <i class="fas fa-lock me-1 text-primary"></i>
+                        Password *
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <input type="password"
+                               name="password1"
+                               class="form-control"
+                               placeholder="Create a strong password"
+                               required
+                               id="password1"
+                               oninput="checkPasswordStrength(this.value)">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength mt-2">
+                        <div class="strength-meter" id="passwordStrength"></div>
+                    </div>
+                    <small class="text-muted">Minimum 8 characters with letters and numbers</small>
+                </div>
+                
+                <!-- Password 2 -->
+                <div class="mb-4">
+                    <label class="form-label">
+                        <i class="fas fa-lock me-1 text-primary"></i>
+                        Confirm Password *
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-key"></i>
+                        </span>
+                        <input type="password"
+                               name="password2"
+                               class="form-control"
+                               placeholder="Confirm your password"
+                               required
+                               id="password2">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword2">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2" id="passwordMatch"></div>
+                </div>
+                
+                <!-- Terms Agreement -->
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">
+                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a> *
+                    </label>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn-signup">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Create Account
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Login Link -->
+            <div class="login-link">
+                <p class="mb-2">Already have an account?</p>
+                <a href="{% url 'login' %}" class="d-inline-flex align-items-center">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Sign In to Your Account
+                </a>
+            </div>
+            
+            <!-- Security Note -->
+            <div class="alert alert-info alert-custom mt-4 mb-0">
+                <i class="fas fa-shield-alt me-2"></i>
+                <strong>Your security is our priority:</strong> All data is encrypted and protected with 256-bit SSL encryption.
+            </div>
         </div>
     </div>
-    <!-- Bootstrap JS -->
+
+    <!-- Bootstrap JS with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password visibility toggle
+            const togglePassword1 = document.getElementById('togglePassword1');
+            const password1 = document.getElementById('password1');
+            
+            const togglePassword2 = document.getElementById('togglePassword2');
+            const password2 = document.getElementById('password2');
+            
+            togglePassword1.addEventListener('click', function() {
+                const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+                password1.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            togglePassword2.addEventListener('click', function() {
+                const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+                password2.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+            
+            // Check password match
+            password2.addEventListener('input', function() {
+                const password1Value = password1.value;
+                const password2Value = this.value;
+                const matchDiv = document.getElementById('passwordMatch');
+                
+                if (password2Value === '') {
+                    matchDiv.innerHTML = '';
+                    return;
+                }
+                
+                if (password1Value === password2Value) {
+                    matchDiv.innerHTML = '<span class="text-success"><i class="fas fa-check-circle me-1"></i> Passwords match</span>';
+                } else {
+                    matchDiv.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle me-1"></i> Passwords do not match</span>';
+                }
+            });
+            
+            // Form validation
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password1 = document.getElementById('password1').value;
+                const password2 = document.getElementById('password2').value;
+                const termsCheck = document.getElementById('termsCheck').checked;
+                
+                let errors = [];
+                
+                if (!username) {
+                    errors.push('Username is required');
+                }
+                
+                if (!email) {
+                    errors.push('Email is required');
+                } else if (!isValidEmail(email)) {
+                    errors.push('Please enter a valid email address');
+                }
+                
+                if (!password1) {
+                    errors.push('Password is required');
+                } else if (password1.length < 8) {
+                    errors.push('Password must be at least 8 characters long');
+                }
+                
+                if (password1 !== password2) {
+                    errors.push('Passwords do not match');
+                }
+                
+                if (!termsCheck) {
+                    errors.push('You must agree to the Terms of Service');
+                }
+                
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    showAlert(errors.join('<br>'), 'danger');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Creating Account...';
+                submitBtn.disabled = true;
+            });
+            
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            function checkPasswordStrength(password) {
+                const strengthMeter = document.getElementById('passwordStrength');
+                let strength = 0;
+                
+                if (password.length >= 8) strength += 25;
+                if (/[A-Z]/.test(password)) strength += 25;
+                if (/[0-9]/.test(password)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+                
+                strengthMeter.style.width = strength + '%';
+                
+                if (strength < 50) {
+                    strengthMeter.style.background = '#dc3545';
+                } else if (strength < 75) {
+                    strengthMeter.style.background = '#ffc107';
+                } else {
+                    strengthMeter.style.background = '#28a745';
+                }
+            }
+            
+            function showAlert(message, type) {
+                // Remove existing alerts
+                const existingAlert = document.querySelector('.alert-custom');
+                if (existingAlert) {
+                    existingAlert.remove();
+                }
+                
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-custom alert-dismissible fade show mb-4`;
+                alertDiv.innerHTML = `
+                    <i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                const form = document.getElementById('signupForm');
+                form.insertBefore(alertDiv, form.firstChild);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 </html>
