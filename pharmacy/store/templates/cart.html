@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,4 +72,662 @@
     </script>
 </body>
 </html>
+ -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare - Shopping Cart</title>
+    
+    <!-- Same CSS as your theme -->
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #264653;
+            --accent: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #e76f51;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navbar - Same as your theme */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+        }
+        
+        .brand-logo {
+            background: white;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        /* Cart Container */
+        .cart-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .cart-header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .cart-title {
+            color: var(--secondary);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), #2a9d8f);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .summary-text h4 {
+            color: var(--secondary);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .summary-text p {
+            color: #666;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Cart Items */
+        .cart-items {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .cart-table thead {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+        }
+        
+        .cart-table th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .cart-table td {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+        
+        .product-info h4 {
+            color: var(--secondary);
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .product-info p {
+            color: #666;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .price-cell {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .quantity-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .quantity-btn:hover {
+            background: #248f7c;
+            transform: scale(1.1);
+        }
+        
+        .quantity-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .remove-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .remove-btn:hover {
+            background: #d65c3e;
+            transform: translateY(-2px);
+        }
+        
+        .total-cell {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        /* Cart Actions */
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .cart-total {
+            text-align: right;
+        }
+        
+        .cart-total h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .total-amount {
+            color: var(--primary);
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn-continue {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-continue:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-checkout {
+            background: linear-gradient(135deg, var(--primary), #2a9d8f);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(42, 157, 143, 0.3);
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .empty-title {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .empty-text {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Footer - Same as your theme */
+        .footer-custom {
+            background: linear-gradient(135deg, var(--secondary), #1a3240);
+            color: white;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cart-container {
+                margin: 80px auto 30px;
+            }
+            
+            .cart-summary {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .cart-table thead {
+                display: none;
+            }
+            
+            .cart-table tr {
+                display: block;
+                margin-bottom: 20px;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                padding: 15px;
+            }
+            
+            .cart-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .cart-table td:last-child {
+                border-bottom: none;
+            }
+            
+            .cart-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--secondary);
+                margin-right: 20px;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
 
+    <!-- Same Navbar as your theme -->
+    <nav class="navbar-custom fixed-top">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center;">
+                <div class="brand-logo">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <span class="navbar-brand">MediCare</span>
+            </a>
+            
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="/" style="color: white; text-decoration: none; font-weight: 500;">
+                    <i class="fas fa-home me-1"></i> Back to Shop
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <div class="cart-container">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <h1 class="cart-title">🛒 Shopping Cart</h1>
+            
+            <div class="cart-summary">
+                <div class="summary-item">
+                    <div class="summary-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="summary-text">
+                        <h4>{{ order.get_cart_items }}</h4>
+                        <p>Items in Cart</p>
+                    </div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-icon" style="background: linear-gradient(135deg, var(--accent), #e9b759);">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="summary-text">
+                        <h4>Rs:{{ order.get_cart_total|floatformat:2 }}</h4>
+                        <p>Total Amount</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Items -->
+        {% if items %}
+        <div class="cart-items">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>PRODUCT</th>
+                        <th>PRICE</th>
+                        <th>QUANTITY</th>
+                        <th>TOTAL</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td data-label="Product">
+                            <div class="product-cell">
+                                <div class="product-image">
+                                    {% if item.product.image and item.product.image.url %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                    {% else %}
+                                        <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Product">
+                                    {% endif %}
+                                </div>
+                                <div class="product-info">
+                                    <h4>{{ item.product.name }}</h4>
+                                    <p>Category: {{ item.product.category|default:"Medicine" }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        
+                        <td data-label="Price" class="price-cell">
+                            Rs:{{ item.product.price|floatformat:2 }}
+                        </td>
+                        
+                        <td data-label="Quantity">
+                            <div class="quantity-cell">
+                                <button class="quantity-btn update-cart" 
+                                        data-product="{{ item.product.id }}" 
+                                        data-action="remove">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                
+                                <span class="quantity-value">{{ item.quantity }}</span>
+                                
+                                <button class="quantity-btn update-cart" 
+                                        data-product="{{ item.product.id }}" 
+                                        data-action="add">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </td>
+                        
+                        <td data-label="Total" class="total-cell">
+                            Rs:{{ item.get_total|floatformat:2 }}
+                        </td>
+                        
+                        <td data-label="Action">
+                            <button class="remove-btn update-cart" 
+                                    data-product="{{ item.product.id }}" 
+                                    data-action="delete">
+                                <i class="fas fa-trash-alt"></i>
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cart Actions -->
+        <div class="cart-actions">
+            <a href="/" class="btn-continue">
+                <i class="fas fa-arrow-left me-2"></i>
+                Continue Shopping
+            </a>
+            
+            <div class="cart-total">
+                <h3>ORDER TOTAL</h3>
+                <div class="total-amount">Rs:{{ order.get_cart_total|floatformat:2 }}</div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn-checkout">
+                    <i class="fas fa-lock me-2"></i>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+        
+        {% else %}
+        <!-- Empty Cart -->
+        <div class="empty-cart">
+            <div class="empty-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h2 class="empty-title">Your Cart is Empty</h2>
+            <p class="empty-text">Looks like you haven't added any medicines to your cart yet.</p>
+            <a href="/" class="btn-checkout" style="display: inline-block; text-decoration: none;">
+                <i class="fas fa-pills me-2"></i>
+                Start Shopping
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Same Footer as your theme -->
+    <footer class="footer-custom">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 40px;">
+                <div style="flex: 1; min-width: 300px; margin-bottom: 30px;">
+                    <div style="font-size: 2rem; font-weight: 700; margin-bottom: 20px;">MediCare</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">
+                        Your trusted partner in health and wellness since 2010.
+                    </p>
+                    <div style="display: flex; gap: 15px;">
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; color: rgba(255,255,255,0.7);">
+                © 2024 MediCare Pharmacy. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        // Cart update functionality - Same as your theme
+        var updateBtns = document.getElementsByClassName('update-cart')
+   
+        for (var i = 0; i < updateBtns.length; i++) {
+            updateBtns[i].addEventListener('click', function(){
+                var productId = this.dataset.product
+                var action = this.dataset.action
+                console.log('productId:', productId, 'Action:', action)
+   
+                // Check if user is logged in
+                var user = "{{ request.user }}"
+                if (user === "AnonymousUser"){
+                    alert("Please login to update your cart")
+                    window.location.href = "/login/"
+                } else {
+                    updateUserOrder(productId, action)
+                }
+            })
+        }
+   
+        function updateUserOrder(productId, action){
+            var url = '/update_item/'
+   
+            fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body:JSON.stringify({'productid':productId, 'action':action})
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Data:', data)
+                location.reload()
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+                alert('Error updating cart. Please try again.')
+            });
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Checkout button functionality
+        document.querySelector('.btn-checkout')?.addEventListener('click', function() {
+            if ({{ order.get_cart_items }} > 0) {
+                window.location.href = "/checkout/"
+            } else {
+                alert("Your cart is empty. Add some items first!")
+            }
+        });
+    </script>
+</body>
+</html>
