@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
@@ -35,7 +37,6 @@
             font-weight: 600;
         }
         
-        /* Modern Navbar */
         .navbar-custom {
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -195,6 +196,14 @@
             border-radius: 2px;
         }
 
+        /* Admin Buttons */
+        .admin-actions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
         /* Footer */
         .footer-custom {
             background: linear-gradient(135deg, var(--secondary), #1a3240);
@@ -294,6 +303,16 @@
                             <i class="fas fa-home me-1"></i> Home
                         </a>
                     </li>
+                    
+                    <!-- Admin ke liye Add Product link -->
+                    {% if user.is_staff or user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_product">
+                            <i class="fas fa-plus-circle me-1"></i> Add Product
+                        </a>
+                    </li>
+                    {% endif %}
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">
                             <i class="fas fa-info-circle me-1"></i> About Us
@@ -306,16 +325,29 @@
                     </li>
 
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <span class="nav-link">
-                                <i class="fas fa-user me-1"></i> Hello, {{ user.username }}
-                            </span>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-light btn-sm ms-2">Logout</button>
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user me-1"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- Admin/Staff ke liye extra options -->
+                                {% if user.is_staff or user.is_superuser %}
+                                <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog me-2"></i> Admin Panel</a></li>
+                                <li><a class="dropdown-item" href="/add_product"><i class="fas fa-plus me-2"></i> Add Product</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart me-2"></i> My Cart</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i> Order History</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -325,7 +357,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">
-                                <i class="fas fa-user-alt me-1"></i> Login
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
                             </a>
                         </li>
                     {% endif %}
@@ -359,7 +391,16 @@
 
     <!-- 🔹 Main Content -->
     <div class="container my-5">
-        <h2 class="text-center section-title">Available Medicines</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">Available Medicines</h2>
+            
+            <!-- Admin ke liye Add Product button -->
+            {% if user.is_staff or user.is_superuser %}
+            <a href="/add_product" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-2"></i> Add New Product
+            </a>
+            {% endif %}
+        </div>
         
         <div class="row g-4">
             {% for goli in med %}
@@ -376,7 +417,13 @@
                     
                     <div class="card-body p-3">
                         <h6 class="medicine-name">{{ goli.name|truncatechars:50 }}</h6>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
+                        
+                        <!-- Product Description (if available) -->
+                        {% if goli.description %}
+                        <p class="text-muted small mb-2">{{ goli.description|truncatechars:60 }}</p>
+                        {% endif %}
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
                                 <span class="medicine-price">Rs:{{ goli.price }}</span>
                                 <small class="text-muted d-block">per Box</small>
@@ -384,22 +431,41 @@
                             <span class="badge bg-success">In Stock</span>
                         </div>
                         
-                        <div class="d-grid mb-2">
-                            <button data-product="{{ goli.id }}" data-action="add" class="btn btn-primary update-cart">
-                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                        <!-- Normal User ke liye: Sirf Add to Cart button -->
+                        {% if not user.is_staff and not user.is_superuser %}
+                        <div class="d-grid gap-2">
+                            <button data-product="{{ goli.id }}" data-action="add" class="btn btn-add-to-cart update-cart">
+                                <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                            </button>
+                        </div>
+                        
+                        <!-- Admin/Staff ke liye: All buttons -->
+                        {% else %}
+                        <div class="d-grid gap-2">
+                            <!-- Add to Cart button (Admin bhi cart use kar sakta hai) -->
+                            <button data-product="{{ goli.id }}" data-action="add" class="btn btn-add-to-cart update-cart">
+                                <i class="fas fa-cart-plus me-2"></i> Add to Cart
                             </button>
                             
+                            <!-- Admin Actions -->
+                            <div class="admin-actions">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <a href="{% url 'update' pk=goli.id %}" class="btn btn-warning btn-sm w-100">
+                                            <i class="fas fa-edit me-1"></i> Edit
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="{% url 'delete' pk=goli.id %}" class="btn btn-danger btn-sm w-100"
+                                           onclick="return confirmDelete('{{ goli.name }}')">
+                                            <i class="fas fa-trash me-1"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-grid mb-2">
-                            <a href="{% url 'delete' pk=goli.id %}" class="btn btn-danger">
-                                <i class="fas fa-trash-alt me-2"></i> Deleted
-                            </a>
-                        </div>
-                        <div class="d-grid mb-2">
-                            <a href="{% url 'update' pk=goli.id %}" class="btn btn-success">
-                                <i class="fas fa-pencil-alt me-2"></i> Update
-                            </a>
-                        </div>
+                        {% endif %}
+                        
                         <div class="text-center mt-3">
                             <small class="text-muted">
                                 <i class="fas fa-shield-alt text-primary me-1"></i> Genuine Products
@@ -413,9 +479,57 @@
                 <i class="fas fa-pills fa-3x text-muted mb-3"></i>
                 <h4 class="text-muted">No medicines available at the moment</h4>
                 <p class="text-muted">Please check back later or contact our store</p>
+                
+                <!-- Admin ke liye add product prompt -->
+                {% if user.is_staff or user.is_superuser %}
+                <a href="/add_product" class="btn btn-primary mt-3">
+                    <i class="fas fa-plus-circle me-2"></i> Add First Product
+                </a>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
+        
+        <!-- Admin Statistics (Sirf admin ke liye) -->
+        {% if user.is_staff or user.is_superuser %}
+        <div class="admin-stats mt-5 p-4 bg-light rounded-3">
+            <h5 class="mb-3"><i class="fas fa-chart-bar me-2"></i> Admin Dashboard</h5>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <div class="card border-0 bg-primary text-white">
+                        <div class="card-body">
+                            <h2>{{ med.count }}</h2>
+                            <p class="mb-0">Total Products</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-success text-white">
+                        <div class="card-body">
+                            <h2>0</h2>
+                            <p class="mb-0">Total Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-warning text-white">
+                        <div class="card-body">
+                            <h2>0</h2>
+                            <p class="mb-0">Pending Orders</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 bg-info text-white">
+                        <div class="card-body">
+                            <h2>{{ users_count|default:0 }}</h2>
+                            <p class="mb-0">Total Users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <!-- 🔹 Footer -->
@@ -432,60 +546,182 @@
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 footer-links">
+                    <h6>Quick Links</h6>
+                    <a href="/">Home</a>
+                    
+                    <!-- Admin ke liye different links -->
+                    {% if user.is_staff or user.is_superuser %}
+                    <a href="/add_product">Add Product</a>
+                    <a href="/admin/">Admin Panel</a>
+                    {% endif %}
+                    
+                    <a href="{% url 'about' %}">About Us</a>
+                    <a href="#">Medicines</a>
+                    <a href="#">Prescriptions</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4 footer-links">
+                    <h6>Services</h6>
+                    <a href="#">Online Consultation</a>
+                    <a href="#">Medicine Delivery</a>
+                    <a href="#">Health Checkups</a>
+                    <a href="#">Senior Care</a>
+                    <a href="#">Emergency Services</a>
+                </div>
+                
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <h6 class="text-accent">Emergency Contact</h6>
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2"></i> +91 99999 88888
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2"></i> emergency@medicare.com
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-clock me-2"></i> Available 24/7
+                    </p>
+                    <div class="alert alert-light small" role="alert">
+                        <i class="fas fa-exclamation-circle text-primary me-1"></i>
+                        For medical emergencies, call immediately
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
+                        {% if user.is_staff or user.is_superuser %}
+                        <small class="d-block text-warning">
+                            <i class="fas fa-user-shield me-1"></i> Admin Mode Active
+                        </small>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <small>
+                            <a href="#" class="text-light me-3">Privacy Policy</a>
+                            <a href="#" class="text-light me-3">Terms of Service</a>
+                            <a href="#" class="text-light">Contact</a>
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Bootstrap JS with Popper -->
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"></script>
 
-        <script>
-        // 1. Get all buttons with class 'update-cart'
-        var updateBtns = document.getElementsByClassName('update-cart')
-   
+    <script>
+        // Delete confirmation function
+        function confirmDelete(productName) {
+            return confirm(`Are you sure you want to delete "${productName}"?\n\nThis action cannot be undone.`);
+        }
+
+        // Get all buttons with class 'update-cart'
+        var updateBtns = document.getElementsByClassName('update-cart');
+
         for (var i = 0; i < updateBtns.length; i++) {
             updateBtns[i].addEventListener('click', function(){
-                var productId = this.dataset.product
-                var action = this.dataset.action
-                console.log('productId:', productId, 'Action:', action)
-   
-                // 2. Check if user is logged in
-                var user = "{{ request.user }}"
+                var productId = this.dataset.product;
+                var action = this.dataset.action;
+                console.log('productId:', productId, 'Action:', action);
+
+                // Check if user is logged in
+                var user = "{{ request.user }}";
                 if (user === "AnonymousUser"){
-                    console.log("User is not logged in")
-                    // Redirect to login or handle guest cart here
-                    window.location.href = "/login/"
+                    alert('Please login to add items to cart');
+                    window.location.href = "{% url 'login' %}";
                 } else {
-                    updateUserOrder(productId, action)
+                    updateUserOrder(productId, action);
                 }
-            })
+            });
         }
-   
-        // 3. Send data to views.py
+
+        // Send data to views.py
         function updateUserOrder(productId, action){
-            var url = '/update_item/'
-   
+            var url = '/update_item/';
+
             fetch(url, {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}', // Django CSRF Token
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
                 },
-                body:JSON.stringify({'productid':productId, 'action':action})
+                body: JSON.stringify({'productid': productId, 'action': action})
             })
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                console.log('Data:', data)
-                location.reload()
+                console.log('Data:', data);
+                
+                // Show success message
+                if (data.message) {
+                    showToast(data.message, 'success');
+                }
+                
+                // Update cart count if needed
+                if (data.cart_count !== undefined) {
+                    updateCartCount(data.cart_count);
+                }
+                
+                // Reload page if needed
+                if (data.reload) {
+                    setTimeout(() => location.reload(), 1500);
+                }
             });
         }
+
+        // Toast notification function
+        function showToast(message, type) {
+            // Create toast container if not exists
+            if (!document.getElementById('toast-container')) {
+                var toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999;';
+                document.body.appendChild(toastContainer);
+            }
+
+            var toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0 show`;
+            toast.style.cssText = 'min-width: 250px;';
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+
+            document.getElementById('toast-container').appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Update cart count in navbar (if you have cart count badge)
+        function updateCartCount(count) {
+            var cartBadge = document.querySelector('.nav-link .badge');
+            if (cartBadge) {
+                cartBadge.textContent = count;
+                cartBadge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        // Initialize Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
     </script>
 </body>
 </html>

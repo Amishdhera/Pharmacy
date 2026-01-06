@@ -36,8 +36,7 @@
             font-weight: 600;
         }
         
-        /* Modern Navbar */
-        .navbar-custom {
+   .navbar-custom {
             background: linear-gradient(135deg, var(--secondary), var(--primary));
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 15px 0;
@@ -60,20 +59,7 @@
             justify-content: center;
             margin-right: 10px;
         }
-        
-        .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
-            font-weight: 500;
-            margin: 0 8px;
-            transition: all 0.3s;
-            padding: 8px 16px !important;
-            border-radius: 6px;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            color: white !important;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
+       
         
         /* Update Card */
         .update-card {
@@ -248,27 +234,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
-        /* Footer */
-        .footer-custom {
-            background: linear-gradient(135deg, var(--secondary), #1a3240);
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 80px;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        
-        .copyright {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-            margin-top: 40px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-        }
+      
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -302,49 +268,19 @@
 
 <body>
     <!-- Modern Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
+    <nav class="navbar-custom fixed-top">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" style="text-decoration: none; display: flex; align-items: center;">
                 <div class="brand-logo">
                     <i class="fas fa-pills"></i>
                 </div>
-                MediCare
+                <span class="navbar-brand">MediCare</span>
             </a>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon text-white">
-                    <i class="fas fa-bars"></i>
-                </span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="fas fa-home me-1"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/add_product">
-                            <i class="fas fa-plus-circle me-1"></i> Add Product
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-edit me-1"></i> Update Product
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">
-                            <i class="fas fa-info-circle me-1"></i> About
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-box me-1"></i> Inventory
-                        </a>
-                    </li>
-                </ul>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="/" style="color: white; text-decoration: none; font-weight: 500;">
+                    <i class="fas fa-home me-1"></i> Back to Shop
+                </a>
             </div>
         </div>
     </nav>
@@ -533,53 +469,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer-custom">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="footer-logo">MediCare</div>
-                    <p class="mb-3">Your trusted partner in health and wellness since 2010.</p>
-                    <div class="social-icons">
-                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-8 text-lg-end">
-                    <p class="mb-1">
-                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
-                    </p>
-                    <p class="mb-1">
-                        <i class="fas fa-phone me-2"></i> +91 98765 43210
-                    </p>
-                    <p class="mb-3">
-                        <i class="fas fa-envelope me-2"></i> admin@medicare.com
-                    </p>
-                    <div class="alert alert-light small d-inline-block" role="alert">
-                        <i class="fas fa-shield-alt text-primary me-1"></i>
-                        Secure admin panel • GDPR Compliant
-                    </div>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-md-start">
-                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <small>
-                            <a href="#" class="text-light me-3">Privacy Policy</a>
-                            <a href="#" class="text-light">Terms of Service</a>
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+   
     <!-- Bootstrap JS with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
