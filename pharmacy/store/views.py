@@ -1,11 +1,17 @@
 from django.shortcuts import render,  redirect, get_object_or_404
 from.models import *
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 import json
 from django.http import JsonResponse
 # Create your views here.
+def isadmin(user):
+    return user.is_superuser
+    
+
+
 def home(request):
      med = Medicines.objects.all()
      context ={'med':med}
@@ -22,8 +28,9 @@ def contact(request):
 def addtocart(request):
      return render(request,'addtocart.html')
 
+@login_required(login_url='login')
+@user_passes_test(isadmin)
 def product(request):
-
      if request.method=='POST':
           name=request.POST.get('med_name')
           price=request.POST.get('med_price')

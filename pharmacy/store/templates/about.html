@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - MediCare Pharmacy</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+     <!-- Bootstrap 5 CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- Font Awesome Icons -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <!-- Bootstrap Icons -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+     <!-- Google Fonts -->
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -398,150 +400,73 @@
 
 <body>
     <!-- Modern Navbar -->
-
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <div class="brand-logo">
-                    <i class="fas fa-pills"></i>
-                </div>
-                MediCare
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon text-white">
-                    <i class="fas fa-bars"></i>
-                </span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-home me-1"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">
-                            <i class="fas fa-info-circle me-1"></i> About Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">
-                            <i class="fas fa-phone-alt me-1"></i> Contact
-                        </a>
-                    </li>
-
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <span class="nav-link">
-                                <i class="fas fa-user me-1"></i> Hello, {{ user.username }}
-                            </span>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{% url 'logout' %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-light btn-sm ms-2">Logout</button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registers' %}">
-                                <i class="fas fa-user-alt me-1"></i> Register
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
-                                <i class="fas fa-user-alt me-1"></i> Login
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
+    <!-- <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <div class="brand-logo">
+                <i class="fas fa-pills"></i>
             </div>
+            MediCare
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon text-white">
+                <i class="fas fa-bars"></i>
+            </span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="fas fa-home me-1"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">
+                        <i class="fas fa-info-circle me-1"></i> About Us
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        <i class="bi bi-cart me-1"></i> Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">
+                        <i class="fas fa-phone-alt me-1"></i> Contact
+                    </a>
+                </li>
+    
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            <i class="fas fa-user me-1"></i> Hello, {{ user.username }}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm ms-2">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'registers' %}">
+                            <i class="fas fa-user-alt me-1"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="fas fa-user-alt me-1"></i> Login
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <div class="brand-logo">
-                    <i class="fas fa-pills"></i>
-                </div>
-                MediCare
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon text-white">
-                    <i class="fas fa-bars"></i>
-                </span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'home' %}">
-                            <i class="fas fa-home me-1"></i> Home
-                        </a>
-                    </li>
-                    
-                    <!-- Admin ke liye Add Product link -->
-                    {% if user.is_staff or user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/add_product">
-                            <i class="fas fa-plus-circle me-1"></i> Add Product
-                        </a>
-                    </li>
-                    {% endif %}
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">
-                            <i class="fas fa-info-circle me-1"></i> About Us
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">
-                            <i class="fas fa-phone-alt me-1"></i> Contact
-                        </a>
-                    </li>
+    </div> -->
+    
+    {% include 'navbar.html' %}
 
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i> {{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- Admin/Staff ke liye extra options -->
-                                {% if user.is_staff or user.is_superuser %}
-                                <li><a class="dropdown-item" href="/admin/"><i class="fas fa-cog me-2"></i> Admin Panel</a></li>
-                                <li><a class="dropdown-item" href="/add_product"><i class="fas fa-plus me-2"></i> Add Product</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                {% endif %}
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart me-2"></i> My Cart</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i> Order History</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{% url 'logout' %}" method="post" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'registers' %}">
-                                <i class="fas fa-user-alt me-1"></i> Register
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">
-                                <i class="fas fa-sign-in-alt me-1"></i> Login
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
     <!-- Hero About Section -->
     <div class="about-hero">
         <div class="container">
