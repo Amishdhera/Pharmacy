@@ -687,75 +687,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer-custom">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="footer-logo">MediCare</div>
-                    <p>Your trusted partner in health and wellness since 2010. We provide genuine medicines with care and responsibility.</p>
-                    <div class="social-icons mt-4">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-4 mb-4 footer-links">
-                    <h6>Quick Links</h6>
-                    <a href="/">Home</a>
-                    <a href="{% url 'about' %}">About Us</a>
-                    <a href="#">Medicines</a>
-                    <a href="#">Prescriptions</a>
-                    <a href="#">Contact</a>
-                </div>
-                
-                <div class="col-lg-3 col-md-4 mb-4 footer-links">
-                    <h6>Services</h6>
-                    <a href="#">Online Consultation</a>
-                    <a href="#">Medicine Delivery</a>
-                    <a href="#">Health Checkups</a>
-                    <a href="#">Senior Care</a>
-                    <a href="#">Chronic Disease Management</a>
-                </div>
-                
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <h6 class="text-accent">Contact Us</h6>
-                    <p class="mb-2">
-                        <i class="fas fa-map-marker-alt me-2"></i> 123 Health Street, Medical City
-                    </p>
-                    <p class="mb-2">
-                        <i class="fas fa-phone me-2"></i> +91 98765 43210
-                    </p>
-                    <p class="mb-2">
-                        <i class="fas fa-envelope me-2"></i> care@medicare.com
-                    </p>
-                    <p class="mb-3">
-                        <i class="fas fa-clock me-2"></i> 24/7 Emergency: +91 99999 88888
-                    </p>
-                    <div class="alert alert-light small" role="alert">
-                        <i class="fas fa-exclamation-circle text-primary me-1"></i>
-                        Always consult a doctor before taking medicines
-                    </div>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-md-start">
-                        <small>© 2025 MediCare Pharmacy. All rights reserved.</small>
-                    </div>
-                    <div class="col-md-6 text-md-end">
-                        <small>
-                            <a href="#" class="text-light me-3">Privacy Policy</a>
-                            <a href="#" class="text-light me-3">Terms of Service</a>
-                            <a href="#" class="text-light">Licenses</a>
-                        </small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+     {% include 'footer.html' %}
 
     <!-- Bootstrap JS with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
